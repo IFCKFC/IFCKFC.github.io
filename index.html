@@ -46,6 +46,72 @@
             background-color: #cdc1b4;
             margin: 15px;
         }
+        #volumeControlButton 
+        {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+        }
+        #bgmVolumeControl, #actVolumeControl 
+        {
+            display: none; /* 初始隐藏 */
+            position: fixed;
+            top: 40px; /* 留出按钮空间 */
+            right: 10px;
+            z-index: 99;
+        }
+        #bgmVolumeControl 
+        {
+            top: 50px; /* 调整为适当的位置，避免与按钮重叠 */
+        }
+        #actVolumeControl 
+        {
+            top: 90px; /* 根据实际情况进一步调整，确保与bgmVolumeControl不重叠 */
+        }
+        /* 背景音乐音量控制的样式 */
+        #bgmVolumeControl::-webkit-slider-thumb 
+        {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4CAF50; /* 绿色 */
+            cursor: pointer;
+        }
+        #bgmVolumeControl::-webkit-slider-runnable-track 
+        {  
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            
+            background: #201A23; /* 深灰色 */
+            border-radius: 1.3px;
+        }
+        /* 动作音量控制的样式 */
+        #actVolumeControl::-webkit-slider-thumb 
+        {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #2196F3; /* 蓝色 */
+            cursor: pointer;
+        }
+        #actVolumeControl::-webkit-slider-runnable-track
+        {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            
+            background: #201A23; /* 深灰色 */
+            border-radius: 1.3px;
+        }
+        #score, #highScore 
+        {
+            font-size: 20px;
+            margin: 10px;
+        }
     </style>
 </head>
 
@@ -78,11 +144,76 @@
 
     <div id="score">分数: 0</div>
     <div id="highScore">最高分数: 0</div>
+    
+    <audio id="bgm" src="bgm.mp3" preload="true" loop="true"></audio>
+    <audio id="act" src="act.mp3" preload="true"></audio>
+    
+    <button id="volumeControlButton">音量控制</button>
+
+    <!-- 限音量格式调整 -->
+    <style>
+        body {
+            position: relative;
+        }
+
+        #bgmVolumeControlLabel
+        {
+            position: absolute;
+            top: 27px;
+            right: 150px;
+        }
+        #actVolumeControlLabel
+        {
+            position: absolute;
+            top: 63px;
+            right: 150px; 
+        }
+        #bgmVolumeControlLabel, #actVolumeControlLabel 
+        {
+            display: none;
+        }
+    </style>
+
+    <label for="bgmVolumeControl" id="bgmVolumeControlLabel">音乐</label>
+    <label for="actVolumeControl" id="actVolumeControlLabel">音效</label>
+    <input type="range" id="bgmVolumeControl" min="0" max="1" step="0.01" value="0.3">
+    <input type="range" id="actVolumeControl" min="0" max="1" step="0.01" value="0.3">
 
     <!-- 游戏脚本代码 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => 
         {
+            const bgm = document.getElementById('bgm'); 
+            const startGameButton = document.getElementById('startGameButton');
+
+            // 设置棋盘并播放背景音乐的逻辑
+            startGameButton.addEventListener('click', () => {
+                setupBoard(); // 假设这是您设置棋盘的函数
+                bgm.play().catch(error => console.error("音乐播放失败:", error)); // 尝试播放背景音乐
+            });
+
+            const volumeControlButton = document.getElementById('volumeControlButton');
+            const bgmVolumeControl = document.getElementById('bgmVolumeControl');
+            const actVolumeControl = document.getElementById('actVolumeControl');
+
+            volumeControlButton.addEventListener('click', () => {
+            // 切换音量控制条的显示和隐藏
+                bgmVolumeControlLabel.style.display = bgmVolumeControlLabel.style.display === 'block' ? 'none' : 'block';
+                actVolumeControlLabel.style.display = actVolumeControlLabel.style.display === 'block' ? 'none' : 'block';
+                bgmVolumeControl.style.display = bgmVolumeControl.style.display === 'block' ? 'none' : 'block';
+                actVolumeControl.style.display = actVolumeControl.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // 为背景音乐音量控制添加事件监听器
+            bgmVolumeControl.addEventListener('input', () => {
+                bgm.volume = bgmVolumeControl.value; // 更新背景音乐的音量
+            });
+
+            // 为动作音效音量控制添加事件监听器
+            actVolumeControl.addEventListener('input', () => {
+                act.volume = actVolumeControl.value; // 更新动作音效的音量
+            });
+
             /* 初始化 */
             let gameStarted = false, win = false;                                                    // 游戏是否开始
             let score = 0, highScore = 0;                                               // 初始化分数和最高分数
@@ -348,7 +479,7 @@
                     // 先显示画面，再弹出提示框
                     setTimeout(function() 
                     {
-                        alert('哈哈，你输了！重开吧小子！o(*≧▽≦)ツ┏━┓');
+                        alert('输赢什么的无所谓！再开一局吧！o(*≧▽≦)ツ┏━┓');
                     }, 0);
                     document.getElementById('startGameButton').style.display = '';
                 }
@@ -369,12 +500,17 @@
             // 监听键盘事件来移动
             document.addEventListener('keyup', (e) => 
             {
+                setTimeout(function()
+                {
+                    playSound();
+                }, 0);
+
                 // 检查游戏是否开始
                 if (!gameStarted) 
                 {
                     return;
                 }
-
+            
                 // 根据按键移动
                 if (e.key === 'ArrowLeft' || e.key === 'a') 
                 {
@@ -392,7 +528,15 @@
                 {
                     move('down');
                 }
-            });
+            });                
+            
+            // 在需要触发音效的函数中添加
+            function playSound() 
+            {
+                var sound = document.getElementById("act");
+                sound.currentTime = 0; // 将音频回到开始
+                sound.play(); // 播放音效
+            }
 
             // 检查游戏需要结束的情况
             function isGameOver(board) 
@@ -431,11 +575,10 @@
                 // 没有空格且没有可合并的格子，游戏结束
                 return true;
             }
-
-            // 开始游戏
-            document.getElementById('startGameButton').addEventListener('click', setupBoard);
         });
     </script>
+
+    <div style="color: gray; position: fixed; bottom: 0; right: 0; margin: 10px;">创作by有点不太队</div>
 </body>
 
 </html>
