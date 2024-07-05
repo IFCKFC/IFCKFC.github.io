@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>2048游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .game-container {
+            width: 500px;
+            height: 500px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #bbada0;
+            padding: 10px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+        .score-board {
+            margin-bottom: 20px;
+        }
+        .tile {
+            width: 100px;
+            height: 100px;
+            background-color: #cdc1b4;
+            position: absolute;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>2048</h1>
+    <div class="score-board">得分：<span id="score">0</span></div>
+    <div class="game-container" id="game-container"></div>
+
+    <script>
+        // JavaScript逻辑将在这里编写
+    </script>
+</body>
+</html>
