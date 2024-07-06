@@ -1,0 +1,15 @@
+/* 特制文字格式 */
+h4 {
+    color: rgb(99, 99, 99);
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-family: ui-rounded;
+    margin: 20px 0px 0px 20px;
+}
+
+h5 {
+    color: rgb(30, 25, 16);
+    font-size: 18px;
+    font-family: ui-rounded;
+    margin: 10px 0px 0px 0px;
+}
