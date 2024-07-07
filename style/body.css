@@ -1,0 +1,8 @@
+/* 设置本体文字格式等 */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: antiquewhite;
+}
