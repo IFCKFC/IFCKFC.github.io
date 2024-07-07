@@ -34,11 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
         board = new Array(16).fill(0);
 
         // 添加两个随机数字并开始游戏
-        
         //checking: (please change after debugging)
-        //addNumber();
-        //addNumber();
-        board[3] = 1024;
+        addNumber();
+        addNumber();
+        
+        // debugging only
+        /*board[3] = 1024;
         
         board[4] = 2;
         board[5] = 2;
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         board[10] = 4;
 
         board[13] = 8;
-        board[15] = 8;
+        board[15] = 8;*/
 
         updateBoard();
     }
@@ -179,7 +180,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         setTimeout(function () {
+            if (boardBeforeMove.join("") !== board.join("")) addNumber();
             updateBoard();
+            checkWin();
+            checkLose();
         }, 215);
     }
 
