@@ -11,6 +11,23 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(a);
     document.body.insertAdjacentHTML('beforeend', '<br><h4>点logo可进入玩法详情哦o(*￣▽￣*)ブ</h4>');
 
+    // 创建排行榜显示
+    const rankingContainer = document.createElement('div');
+    rankingContainer.id = "rankingContainer";
+    rankingContainer.style = "position: absolute; left: 20px; top: 100px;";
+    rankingContainer.innerHTML = `
+        <h4>排行榜</h4>
+        <ul id="ranking"></ul>
+    `;
+    document.body.appendChild(rankingContainer);
+    // 在排行榜后添加重置排行榜的按钮
+    const resetRankingButton = document.createElement('button');
+    resetRankingButton.id = "resetRankingButton";
+    resetRankingButton.textContent = "重置";
+    // 设置按钮固定在排行榜左边
+    resetRankingButton.style = "position: absolute; left: 10px; top: 123px; background-color: antiquewhite; border: 1px solid black; border-radius: 5px; padding: 5px 10";
+    document.body.appendChild(resetRankingButton);
+
     // 创建分数和最高分数的显示
     const scoreContainer = document.createElement('div');
     scoreContainer.className = "score-container";
@@ -21,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.body.appendChild(scoreContainer);
 
-    // 创建游戏板显示
+    // 创建游戏板1显示
     const gameContainer = document.createElement('div');
     gameContainer.className = "game-container";
     const gridContainer = document.createElement('div');
@@ -34,11 +51,27 @@ document.addEventListener('DOMContentLoaded', function() {
     gameContainer.appendChild(gridContainer);
     document.body.appendChild(gameContainer);
 
+    // 创建游戏板2显示
+    const gameContainer2 = document.createElement('div');
+    gameContainer2.className = "game-container2";
+    const gridContainer2 = document.createElement('div');
+    gridContainer2.className = "grid-container2";
+    for (let i = 0; i < 16; i++) {
+        const gridCell2 = document.createElement('div');
+        gridCell2.className = "grid-cell2";
+        gridContainer2.appendChild(gridCell2);
+    }
+    gameContainer2.appendChild(gridContainer2);
+    document.body.appendChild(gameContainer2);
+
     // 创建开始游戏按钮
     const gameButton = document.createElement('div');
     gameButton.className = "gameButton";
     gameButton.innerHTML = `<button id="startGameButton">开始游戏</button>`;
     document.body.appendChild(gameButton);
+    document.getElementById('startGameButton').style.position = 'absolute';
+    document.getElementById('startGameButton').style.top = '135px';
+    document.getElementById('startGameButton').style.left = '648px'; 
 
     // 创建音乐和音效的显示及控制
     const bgm = document.createElement('audio');
