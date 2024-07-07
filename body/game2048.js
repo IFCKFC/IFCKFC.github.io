@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 animateMove(from, dis, val);
                 resolve();   
-            }, 20);
+            }, 75);
         });
     }
 
