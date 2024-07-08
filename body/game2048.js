@@ -469,32 +469,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 监听触摸事件来移动
-    document.getElementById("upButton").addEventListener("click", () => {
-        if (!gameStarted || isAnimating) return;
-        upd = false;
-        direction = "up";
-        move("up");
-    });
-    document.getElementById("downButton").addEventListener("click", () => {
-        if (!gameStarted || isAnimating) return;
-        upd = false;
-        direction = "down";
-        move("down");
-    });
-    document.getElementById("leftButton").addEventListener("click", () => {
-        if (!gameStarted || isAnimating) return;
-        upd = false;
-        direction = "left";
-        move("left");
-    });
-    document.getElementById("rightButton").addEventListener("click", () => {
-        if (!gameStarted || isAnimating) return;
-        upd = false;
-        direction = "right";
-        move("right");
-    });
-
     // 在需要触发音效的函数中添加
     function playSound() {
         var sound = document.getElementById("act");
@@ -533,9 +507,21 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
+    // 监听触摸事件来移动（电脑端）
+    const directions = ["up", "down", "left", "right"];
+
+    directions.forEach(dir => {
+        document.getElementById(dir + "Button").addEventListener("click", () => {
+            if (!gameStarted || isAnimating) return;
+            upd = false;
+            direction = dir;
+            move(dir);
+        });
+    });
+
+    // （手机端）
     document.addEventListener("DOMContentLoaded", () => {
         const buttons = ["upButton", "downButton", "leftButton", "rightButton"];
-        const directions = ["up", "down", "left", "right"];
     
         buttons.forEach((buttonId, index) => {
             const button = document.getElementById(buttonId);
