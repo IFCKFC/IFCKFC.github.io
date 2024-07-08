@@ -212,8 +212,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (boardBeforeMove.join("") !== board.join("")) addNumber();
                 updateBoard();
                 lpA();
-            }, 75);
-        }, 250);
+            }, 25);
+        }, 225);
     }
 
     // 优先处理动画功能模组
