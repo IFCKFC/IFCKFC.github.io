@@ -532,4 +532,23 @@ document.addEventListener("DOMContentLoaded", function () {
         // 没有空格且没有可合并的格子，游戏结束
         return true;
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const buttons = ["upButton", "downButton", "leftButton", "rightButton"];
+        const directions = ["up", "down", "left", "right"];
+    
+        buttons.forEach((buttonId, index) => {
+            const button = document.getElementById(buttonId);
+            if (button) { // 确保按钮存在
+                button.addEventListener("touchend", (e) => {
+                    e.preventDefault(); // 阻止默认行为
+                    e.stopPropagation(); // 阻止事件传播
+                    if (!gameStarted || isAnimating) return;
+                    upd = false;
+                    direction = directions[index];
+                    move(direction);
+                });
+            }
+        });
+    });
 });
