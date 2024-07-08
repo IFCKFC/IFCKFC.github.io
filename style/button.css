@@ -1,0 +1,35 @@
+/* 按钮格式 */
+#upButton, #leftButton, #rightButton, #downButton
+{
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    margin: 10px;
+    border: none;
+    background-color: #9b9691;
+}
+
+#upButton /* 上按钮格式 */
+{
+    position: relative;
+    top: 10px;
+    right: -65px;
+}
+#leftButton /* 左按钮格式 */
+{
+    position: relative;
+    top: 130px;
+    right: -65px;
+}
+#rightButton /* 右按钮格式 */
+{
+    position: relative;
+    top: 130px;
+    right: -65px;
+}
+#downButton /* 下按钮格式 */
+{
+    position: relative;
+    top: 130px;
+    right: 184px;
+}

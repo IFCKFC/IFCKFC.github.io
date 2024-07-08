@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     gameContainer.appendChild(gridContainer);
     document.body.appendChild(gameContainer);
 
-    // 创建游戏板2显示
+    // 创建游戏板2显示 (背景版)
     const gameContainer2 = document.createElement('div');
     gameContainer2.className = "game-container2";
     const gridContainer2 = document.createElement('div');

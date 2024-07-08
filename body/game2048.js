@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
     /* 初始化 */
     let direction = null,       // 移动方向
         gameStarted = false,    // 游戏是否开始
-        win = false;            // 游戏是否开始和是否赢了
-        isAnimating = false;    // 动画是否进行中
+        win = false,            // 游戏是否开始和是否赢了
+        isAnimating = false,    // 动画是否进行中
+        upd = false;            // 更新标志
+
     let score = 0,              // 分数
         highScore = 0;          // 最高分数
 
     let squares = Array.from(document.querySelectorAll(".grid-cell")); // 获取所有的格子
-    let board = new Array(16).fill(0);                                 // 初始化游戏板
+    let board = new Array(16).fill(0),                                 // 初始化游戏板
+        boardBeforeMove = [...board];                                  // 记录移动前的游戏板
+
 
     // 初始化游戏板并添加两个随机数字
     function setupBoard() {
@@ -40,14 +44,15 @@ document.addEventListener("DOMContentLoaded", function () {
         addNumber();
         
         // debugging only
-        /*board[3] = 1024;
+        /*board[0] = 1024;
+        board[3] = 512;
         //board[2] = 65536;
         //board[1] = 512;
         
-        board[4] = 2;
+        board[4] = 0;
         board[5] = 2;
         board[6] = 2;
-        board[7] = 2;
+        board[7] = 4;
 
         board[9] = 4;
         board[10] = 4;
@@ -111,15 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < squares.length; i++) {
             if (board[i] > 0) animateAppearance(squares[i]);
         }
+        setTimeout(function () {
+            playSound();
+        }, 0);
     }
 
     // 添加动画显示（Q弹）
     function animateAppearance(square) {
         anime({
             targets: square,
-            scale: [0.75, 1], // 从0.75缩放到1
-            duration: 125,    // 动画持续时间
-            easing: 'easeInOutQuad', // 添加缓动效果
+            scale: [1, 1.35, 1],          
+            duration: 275,            
+            easing: 'easeInOutQuad',  // 添加缓动效果
             transformOrigin: 'center' // 确保缩放中心在元素的中心
         }).finished;
     }
@@ -140,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 根据方向处理移动和合并逻辑
     function move(direction) {
         // 保存移动前的板状态
-        let boardBeforeMove = [...board];
+        boardBeforeMove = [...board];
         let move1 = [], move2 = [], merge = [];
 
         switch (direction) {
@@ -176,8 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let animate1 = [], animate2 = [], animate3 = [];
-        pointerMerge(animate1, animate2, move1, move2, merge);
-
+        pointerMerge(animate1, animate2, animate3, move1, move2, merge);
         
         // debugging only
         /*console.log(boardBeforeMove);
@@ -189,31 +196,28 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(move2);
         
         console.log(animate1);
-        console.log(animate2);*/
-        
+        console.log(animate2);
+        console.log(animate3);*/
+
         // 优先处理动画组
         isAnimating = true; // 持保留意见 
         for (let i = 0; i < animate1.length; i++) animateMovePromise(animate1[i].from, animate1[i].dis, animate1[i].val);
         for (let i = 0; i < animate2.length; i++) animateMovePromise(animate2[i].from, animate2[i].dis, animate2[i].val);
+        for (let i = 0; i < animate3.length; i++) animateMovePromise(animate3[i].from, animate3[i].dis, animate3[i].val);
         
         // 剩余动画组
         for (let i = 0; i < move1.length; i++) animateMove(move1[i].from, move1[i].dis, move1[i].val);
-        for (let i = 0; i < merge.length; i++) animateMove(merge[i].from, merge[i].dis, merge[i].val);
         for (let i = 0; i < move2.length; i++) animateMove(move2[i].from, move2[i].dis, move2[i].val);
+        for (let i = 0; i < merge.length; i++) animateMove(merge[i].from, merge[i].dis, merge[i].val);
         
         // 循环逻辑
         setTimeout(function () {
-            updateBoard();
-            updateScore();
             checkWin();
             checkLose();
-            isAnimating = false;
             setTimeout(function () {
-                if (boardBeforeMove.join("") !== board.join("")) addNumber();
-                updateBoard();
-                lpA();
-            }, 25);
-        }, 225);
+                isAnimating = false;
+            }, 150);
+        }, 250);
     }
 
     // 优先处理动画功能模组
@@ -222,22 +226,35 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 animateMove(from, dis, val);
                 resolve();   
-            }, 50);
+            }, 2);
         });
     }
 
     // 建立坐标可合并的动画（注意先别删点，可能影响运算）
-    function pointerMerge(animate1, animate2, move1, move2, merge) {
-        // 移并一体化
-        for (let i = 0; i < move1.length; i++) 
-            for (let j = 0; j < merge.length; j++) 
-                if (move1[i].to === merge[j].from) 
-                    animate1.push({from: move1[i].from, to: merge[j].to, dis: merge[j].to - move1[i].from, val: move1[i].val});
-        // 并移一体化
+    function pointerMerge(animate1, animate2, animate3, move1, move2, merge) {
+        // 并移一体化不可删点
         for (let i = 0; i < merge.length; i++) 
             for (let j = 0; j < move2.length; j++) 
                 if (merge[i].to === move2[j].from) 
                     animate2.push({from: merge[i].from, to: move2[j].to, dis: move2[j].to - merge[i].from, val: merge[i].val});
+        // 移并一体化可删点
+        for (let i = 0; i < move1.length; i++) 
+            for (let j = 0; j < merge.length; j++) 
+                if (move1[i].to === merge[j].from) {
+                    animate1.push({from: move1[i].from, to: merge[j].to, dis: merge[j].to - move1[i].from, val: move1[i].val});
+                    move1.splice(i--, 1);
+                    merge.splice(j, 1);
+                    break;
+                } 
+        // 移移一体化可删点
+        for (let i = 0; i < move1.length; i++)
+            for (let j = 0; j < move2.length; j++)
+                if (move1[i].to === move2[j].from) {
+                    animate1.push({from: move1[i].from, to: move2[j].to, dis: move2[j].to - move1[i].from, val: move1[i].val});
+                    move1.splice(i--, 1);
+                    move2.splice(j, 1);
+                    break;
+                }
     }
 
     // 移动和合并（移动，合并，再次移动）且记录其移动坐标、距离、值
@@ -270,6 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 merge.push({from: newRow[i + 1].pos, to: newRow[i].pos, dis: newRow[i].pos - newRow[i + 1].pos, val: newRow[i + 1].val});
                 newRow[i] = {val: newRow[i].val * 2, pos: newRow[i].pos};
                 newRow[i + 1] = {val: 0, pos: newRow[i].pos};
+                score += newRow[i].val;
             }
         }
 
@@ -342,8 +360,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 动画结束后重置动画
         fromSquare.addEventListener("animationend", () => {
+            if (!upd) {
+                if (boardBeforeMove.join("") !== board.join("")) addNumber();
+                updateBoard();
+                lpA();
+                updateScore();
+                upd = true;
+            }
             fromSquare.style.animation = '';
-            fromSquare.style.zIndex = ''; // 重置 z-index 为默认值或者可以设置为特定值
+            fromSquare.style.zIndex = '';
         });
     }
 
@@ -355,9 +380,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     win = true;
                     document.getElementById("startGameButton").style.display = "";
                     // 先显示画面，再弹出提示框
+                    isAnimating = true;
                     setTimeout(function () {
                         alert("恭喜你！你赢了！继续玩或者重开，任君选择吧。(￣▽￣)ノ");
-                    }, 225);
+                    }, 300);
+                    isAnimating = false;
                 }
             }
         }
@@ -375,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // 先显示画面，再弹出提示框
             setTimeout(function () {
                 alert("输赢什么的无所谓！再开一局吧！o(*≧▽≦)ツ┏━┓");
-            }, 225);
+            }, 300);
         }
     }
     
@@ -423,17 +450,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("keyup", (e) => {
         // 检查游戏是否开始
         if (!gameStarted || isAnimating) return;
-    
-        setTimeout(function () {
-            playSound();
-        }, 0);
-
+        
+        upd = false;
         direction = null; // 重置方向记录
         // 根据按键移动
         if (e.key === "ArrowUp" || e.key === "w") {
             direction = "up";
             move("up");
-        } if (e.key === "ArrowDown" || e.key === "s") {
+        } else if (e.key === "ArrowDown" || e.key === "s") {
             direction = "down";
             move("down");
         } else if (e.key === "ArrowLeft" || e.key === "a") {
@@ -443,6 +467,32 @@ document.addEventListener("DOMContentLoaded", function () {
             direction = "right";
             move("right");
         }
+    });
+
+    // 监听触摸事件来移动
+    document.getElementById("upButton").addEventListener("click", () => {
+        if (!gameStarted || isAnimating) return;
+        upd = false;
+        direction = "up";
+        move("up");
+    });
+    document.getElementById("downButton").addEventListener("click", () => {
+        if (!gameStarted || isAnimating) return;
+        upd = false;
+        direction = "down";
+        move("down");
+    });
+    document.getElementById("leftButton").addEventListener("click", () => {
+        if (!gameStarted || isAnimating) return;
+        upd = false;
+        direction = "left";
+        move("left");
+    });
+    document.getElementById("rightButton").addEventListener("click", () => {
+        if (!gameStarted || isAnimating) return;
+        upd = false;
+        direction = "right";
+        move("right");
     });
 
     // 在需要触发音效的函数中添加

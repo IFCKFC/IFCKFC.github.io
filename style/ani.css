@@ -1,6 +1,7 @@
 /* 向右移动 */
 @keyframes moveRight {
-    
+    from { transform: translateX(0); }
+    to { transform: translateX(var(--translate-value)); }
 }
 
 /* 向左移动 */
@@ -11,10 +12,12 @@
 
 /* 向上移动 */
 @keyframes moveUp {
-    
+    from { transform: translateY(0); }
+    to { transform: translateY(var(--translate-value)); }
 }
 
 /* 向下移动 */
 @keyframes moveDown {
-    
+    from { transform: translateY(0); }
+    to { transform: translateY(var(--translate-value)); }
 }

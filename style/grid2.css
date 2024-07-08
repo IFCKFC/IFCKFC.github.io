@@ -6,7 +6,7 @@
     top: 332px;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -2;
+    z-index: -1000;
 }
 
 /* 游戏版内格子格式 */
