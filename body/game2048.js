@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     /* 初始化 */
-    let direction = null;       // 移动方向
-    let gameStarted = false,    // 游戏是否开始
+    let direction = null,       // 移动方向
+        gameStarted = false,    // 游戏是否开始
         win = false;            // 游戏是否开始和是否赢了
+        isAnimating = false;    // 动画是否进行中
     let score = 0,              // 分数
         highScore = 0;          // 最高分数
 
@@ -40,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // debugging only
         /*board[3] = 1024;
-        board[2] = 65536;
-        board[1] = 512;
+        //board[2] = 65536;
+        //board[1] = 512;
         
         board[4] = 2;
         board[5] = 2;
@@ -55,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         board[15] = 8;*/
 
         updateBoard();
+        lpA();
     }
 
     // 在随机空位置添加一个新的数字
@@ -75,8 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // 更新每个格子的数字和颜色
         for (let i = 0; i < squares.length; i++) {
             if (board[i] > 0) {
-                // Q弹动画
-                animateAppearance(squares[i]);
                 // 更新数字
                 squares[i].innerHTML = board[i];
                 // 更换不同颜色
@@ -106,12 +106,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // 使用（Q弹）
+    function lpA() {
+        for (let i = 0; i < squares.length; i++) {
+            if (board[i] > 0) animateAppearance(squares[i]);
+        }
+    }
+
     // 添加动画显示（Q弹）
     function animateAppearance(square) {
         anime({
             targets: square,
-            scale: [0.5, 1], // 从0.5缩放到1
-            duration: 500     // 动画持续时间
+            scale: [0.75, 1], // 从0.75缩放到1
+            duration: 125,    // 动画持续时间
+            easing: 'easeInOutQuad', // 添加缓动效果
+            transformOrigin: 'center' // 确保缩放中心在元素的中心
         }).finished;
     }
 
@@ -135,22 +144,41 @@ document.addEventListener("DOMContentLoaded", function () {
         let move1 = [], move2 = [], merge = [];
 
         switch (direction) {
+            case "up":
+                for (let i = 0; i <= 3; i++) {
+                    let row = [board[i], board[i + 4], board[i + 8], board[i + 12]];
+                    let newRow = moveAndMergeRow(row, i, move1, move2, merge);
+                    for (let j = 0; j < 4; j++) board[i + j * 4] = newRow[j];
+                }
+                break;
+            case "down":
+                for (let i = 12; i <= 15; i++) {
+                    let row = [board[i], board[i - 4], board[i - 8], board[i - 12]];
+                    let newRow = moveAndMergeRow(row, i, move1, move2, merge);
+                    for (let j = 0; j < 4; j++) board[i - j * 4] = newRow[j];
+                }
+                break;
             case "left":
-                // 对每一行进行处理
-                for (let i = 0; i < 16; i += 4) {
+                for (let i = 0; i <= 15; i += 4) {
                     let row = [board[i], board[i + 1], board[i + 2], board[i + 3]];
                     let newRow = moveAndMergeRow(row, i, move1, move2, merge);
-                    // 更新棋盘
                     for (let j = 0; j < 4; j++) board[i + j] = newRow[j];
                     
                 }
                 break;
-            // 处理其他方向...
+            case "right":
+                for (let i = 15; i >= 0; i -= 4) {
+                    let row = [board[i], board[i - 1], board[i - 2], board[i - 3]];
+                    let newRow = moveAndMergeRow(row, i, move1, move2, merge);
+                    for (let j = 0; j < 4; j++) board[i - j] = newRow[j];
+                }
+                break;
         }
 
-        let animate1 = [], animate2 = [];
+        let animate1 = [], animate2 = [], animate3 = [];
         pointerMerge(animate1, animate2, move1, move2, merge);
 
+        
         // debugging only
         /*console.log(boardBeforeMove);
         console.log(board);
@@ -164,8 +192,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(animate2);*/
         
         // 优先处理动画组
+        isAnimating = true; // 持保留意见 
         for (let i = 0; i < animate1.length; i++) animateMovePromise(animate1[i].from, animate1[i].dis, animate1[i].val);
         for (let i = 0; i < animate2.length; i++) animateMovePromise(animate2[i].from, animate2[i].dis, animate2[i].val);
+        
         // 剩余动画组
         for (let i = 0; i < move1.length; i++) animateMove(move1[i].from, move1[i].dis, move1[i].val);
         for (let i = 0; i < merge.length; i++) animateMove(merge[i].from, merge[i].dis, merge[i].val);
@@ -173,12 +203,17 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // 循环逻辑
         setTimeout(function () {
-            if (boardBeforeMove.join("") !== board.join("")) addNumber();
             updateBoard();
             updateScore();
             checkWin();
             checkLose();
-        }, 225);
+            isAnimating = false;
+            setTimeout(function () {
+                if (boardBeforeMove.join("") !== board.join("")) addNumber();
+                updateBoard();
+                lpA();
+            }, 75);
+        }, 250);
     }
 
     // 优先处理动画功能模组
@@ -187,11 +222,11 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 animateMove(from, dis, val);
                 resolve();   
-            }, 75);
+            }, 50);
         });
     }
 
-    // 建立坐标可合并的动画
+    // 建立坐标可合并的动画（注意先别删点，可能影响运算）
     function pointerMerge(animate1, animate2, move1, move2, merge) {
         // 移并一体化
         for (let i = 0; i < move1.length; i++) 
@@ -207,8 +242,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 移动和合并（移动，合并，再次移动）且记录其移动坐标、距离、值
     function moveAndMergeRow(row, startIndex, move1, move2, merge) {
+        // 如果整行都是0，直接返回
+        if (row.every(val => val === 0)) return row;
+        
         // 将每个元素转换为包含值和原始位置的对象
-        let oldRow = row.map((val, index) => ({ val, pos: startIndex + index }));
+        let oldRow = [];
+        if (direction === "up") oldRow = row.map((val, index) => ({ val, pos: startIndex + index * 4 }));
+        else if (direction === "down") oldRow = row.map((val, index) => ({ val, pos: startIndex - index * 4 }));
+        else if (direction === "left") oldRow = row.map((val, index) => ({ val, pos: startIndex + index }));
+        else if (direction === "right") oldRow = row.map((val, index) => ({ val, pos: startIndex - index }));
         // 去0，保留位置信息
         let newRow = oldRow.filter(item => item.val !== 0);
         // 记录首次移动的坐标、距离、值
@@ -276,23 +318,32 @@ document.addEventListener("DOMContentLoaded", function () {
         // 动画移动方向
         switch (direction) {
             case "up":
-                
+                setting /= 4;
+                fromSquare.style.setProperty('--translate-value', `${setting}px`);
+                fromSquare.style.animation = `moveUp 0.25s forwards`;
                 break;
             case "down":
-
+                setting /= 4;
+                fromSquare.style.setProperty('--translate-value', `${setting}px`);
+                fromSquare.style.animation = `moveDown 0.25s forwards`;
                 break;
             case "left":
                 fromSquare.style.setProperty('--translate-value', `${setting}px`);
-                fromSquare.style.animation = `moveLeft 0.225s forwards`;
+                fromSquare.style.animation = `moveLeft 0.25s forwards`;
                 break;
             case "right":
-
+                fromSquare.style.setProperty('--translate-value', `${setting}px`);
+                fromSquare.style.animation = `moveRight 0.25s forwards`;
                 break;
         }
+
+        // 在动画开始前提升 z-index
+        fromSquare.style.zIndex = 1000;
 
         // 动画结束后重置动画
         fromSquare.addEventListener("animationend", () => {
             fromSquare.style.animation = '';
+            fromSquare.style.zIndex = ''; // 重置 z-index 为默认值或者可以设置为特定值
         });
     }
 
@@ -371,7 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 监听键盘事件来移动
     document.addEventListener("keyup", (e) => {
         // 检查游戏是否开始
-        if (!gameStarted) return;
+        if (!gameStarted || isAnimating) return;
     
         setTimeout(function () {
             playSound();
