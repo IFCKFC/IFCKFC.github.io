@@ -538,7 +538,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // （手机端滑动操作）
     let startX, startY; // 触摸开始时的坐标
     document.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
@@ -553,22 +552,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!gameStarted || isAnimating) return;
 
-        upd = false;
-        if (Math.abs(X) > Math.abs(Y) && X > 0) {
-            direction = "right";
-            move("right");
-        }
-        else if (Math.abs(X) > Math.abs(Y) && X < 0) {
-            direction = "left";
-            move("left");
-        }
-        else if (Math.abs(Y) > Math.abs(X) && Y > 0) {
-            direction = "down";
-            move("down");
-        }
-        else if (Math.abs(Y) > Math.abs(X) && Y < 0) {
-            direction = "up";
-            move("up");
+        const MIN_DISTANCE = 10; // 设置最小滑动距离
+        upd = false;    
+        if (Math.abs(X) > Math.abs(Y) && Math.abs(X) > MIN_DISTANCE) {
+            // 判断左右滑动
+            if (X > 0) {
+                direction = "right";
+                move("right");
+            } else {
+                direction = "left";
+                move("left");
+            }
+        } else if (Math.abs(Y) > Math.abs(X) && Math.abs(Y) > MIN_DISTANCE) {
+            // 判断上下滑动
+            if (Y > 0) {
+                direction = "down";
+                move("down");
+            } else {
+                direction = "up";
+                move("up");
+            }
         }
     }, false);
 });
