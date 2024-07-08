@@ -538,36 +538,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // （手机端滑动操作）
     let startX, startY; // 触摸开始时的坐标
+    document.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    }, false);
 
-document.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-}, false);
+    document.addEventListener('touchend', (e) => {
+        const moveEndX = e.changedTouches[0].clientX;
+        const moveEndY = e.changedTouches[0].clientY;
+        const X = moveEndX - startX;
+        const Y = moveEndY - startY;
 
-document.addEventListener('touchend', (e) => {
-    const moveEndX = e.changedTouches[0].clientX;
-    const moveEndY = e.changedTouches[0].clientY;
-    const X = moveEndX - startX;
-    const Y = moveEndY - startY;
+        if (!gameStarted || isAnimating) return;
 
-    if (!gameStarted || isAnimating) return;
-
-    if (Math.abs(X) > Math.abs(Y) && X > 0) {
-        direction = "right";
-        move("right");
-    }
-    else if (Math.abs(X) > Math.abs(Y) && X < 0) {
-        direction = "left";
-        move("left");
-    }
-    else if (Math.abs(Y) > Math.abs(X) && Y > 0) {
-        direction = "down";
-        move("down");
-    }
-    else if (Math.abs(Y) > Math.abs(X) && Y < 0) {
-        direction = "up";
-        move("up");
-    }
-}, false);
+        upd = false;
+        if (Math.abs(X) > Math.abs(Y) && X > 0) {
+            direction = "right";
+            move("right");
+        }
+        else if (Math.abs(X) > Math.abs(Y) && X < 0) {
+            direction = "left";
+            move("left");
+        }
+        else if (Math.abs(Y) > Math.abs(X) && Y > 0) {
+            direction = "down";
+            move("down");
+        }
+        else if (Math.abs(Y) > Math.abs(X) && Y < 0) {
+            direction = "up";
+            move("up");
+        }
+    }, false);
 });
