@@ -1,47 +1,38 @@
 <!-- 声明文档类型 -->
 <!DOCTYPE html>
 
-<!-- 设置文档使用的语言 -->
+<!-- 设置文档使用语言 -->
 <html lang="zh-CN">
 
 <head>
+    <title>  </title>
     <!-- 设置编码 -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 设置格式 -->
-    <link rel="stylesheet" href="style/body.css">
-    <link rel="stylesheet" href="style/font.css">
+    <!-- 设置风格 -->
+    <link rel="stylesheet" href="style/animation.css">
+    <link rel="stylesheet" href="style/button.css">
     <link rel="stylesheet" href="style/grid.css">
     <link rel="stylesheet" href="style/grid2.css">
-    <link rel="stylesheet" href="style/sound.css">
-    <link rel="stylesheet" href="style/score.css">
-    <link rel="stylesheet" href="style/ranking.css">
-    <link rel="stylesheet" href="style/ani.css">
-    <link rel="stylesheet" href="style/button.css">
+    <link rel="stylesheet" href="style/ui_style.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="icon/iconfont.css">
+
 </head>
 
 <body>
-    <button id="fullscreenBtn">进入全屏</button>
-    <script src="body/fullscreen.js"></script>
-    <!-- 显示 -->
-    <script src="body/init.js"></script>
+    <!-- 构造 -->
+    <button id="startGameButton">开始游戏</button>
+    <script src="build/grid.js"></script>
+    <script src="build/ui.js"></script>
 
-    <!-- 音效 -->
-    <script src="body/soundload.js"></script>
-
-    <!-- 按钮组 -->
-    <script src="body/button.js"></script>
-
-    <!-- 引入 anime.js -->
+    <!-- 引入动画库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
-    <!-- 游戏脚本代码 -->
-    <script src="body/game2048.js"></script>
-
-    <!-- 水印 -->
-    <script src="body/watermark.js"></script>
+    <!-- 游戏脚本 -->
+    <script src="build/game2048.js"></script>
+    
 </body>
 
 </html>

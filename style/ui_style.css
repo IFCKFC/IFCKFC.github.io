@@ -1,0 +1,269 @@
+/* 背景 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: var(--body-color);
+}
+/* 设置全局变量 */
+:root{
+    --body-color: #ddf7f5;
+    --shell-color: #fff;
+    --primary-color: #0a86bf;
+    --primary-color-light: #d6ecfa;
+    --toggle-color: #ddd;
+    --text-color: #04565a;
+}
+/* 夜间模式 */
+.dark{
+    --body-color: #202224;
+    --shell-color: #171717;
+    --primary-color: #3a3b3c;
+    --primary-color-light: #3a3b3c;
+    --toggle-color: #fff;
+    --text-color: #ccc;
+}
+/* 背景 */
+.container{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+/* 泡泡设定 */
+.bubbles{
+    position: relative;
+    display: flex;
+}
+.bubbles span{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #4fc3dc;
+    margin: 0 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #4fc3dc44,
+    0 0 50px #4fc3dc,
+    0 0 100px #4fc3dc;
+    animation: animate 15s linear infinite;
+    animation-duration: calc(200s / var(--i));
+}
+.bubbles span:nth-child(even){
+    background: #bf35ff;
+    box-shadow: 0 0 0 10px #bf35ff44,
+    0 0 50px #bf35ff,
+    0 0 100px #bf35ff;
+}
+/* 泡泡动画 */
+@keyframes animate{
+    0%{
+        transform: translateY(120vh) scale(0);
+    }
+    100%{
+        transform: translateY(-10vh) scale(1);
+    }
+}
+.game-container-overall{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+}
+/* 侧边栏 */
+.shell{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background: var(--shell-color);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+.close{
+    width: 88px;
+}
+.shell li{
+    height: 50px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+/* 图片、icon图标 */
+.image,
+.icon{
+    min-width: 60px;
+    border-radius: 6px;
+}
+.icon{
+    min-width: 60px;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 300 23px '';
+}
+.text,
+.icon{
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+.text{
+    font: 500 17px;
+    white-space: nowrap;
+    opacity: 1;
+}
+.shell.close .text{
+    opacity: 0;
+}
+header{
+    position: relative;
+}
+.image-text{
+    display: flex;
+    align-items: center;
+}
+.logo-text{
+    display: flex;
+    flex-direction: column;
+}
+.name{
+    margin-top: 2px;
+    font: 700 22px '';
+}
+.teamname{
+    font-size: 18px;
+    margin-top: -2px;
+    display: block;
+}
+.image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.image img{
+    width: 50px;
+    border-radius: 6px;
+}
+.toggle{
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%) rotate(180deg);
+    height: 25px;
+    width: 25px;
+    background-color: var(--primary-color);
+    color: var(--shell-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.toggle{
+    color: #cccccc;
+}
+.shell.close .toggle{
+    transform: translateY(-50%) rotate(0deg);
+}
+.menu{
+    margin-top: 40px;
+}
+.shell li a{
+    list-style: none;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.shell li a:hover{
+    background-color: var(--primary-color);
+}
+.shell li a:hover .icon,
+.shell li a:hover .text{
+    color: var(--shell-color);
+}
+.menu-bar{
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scoll;
+}
+.menu-bar::-webkit-scrollbar{
+    display: none;
+}
+.menu-bar .mode{
+    border-radius: 6px;
+    background-color: var(--primary-color-light);
+    position: relative;
+    transition: all 0.3s ease;
+}
+.menu-bar .mode .sun-moon{
+    height: 50px;
+    width: 60px;
+}
+.mode .sun-moon i {
+    position: absolute;
+}
+.mode .sun-moon i.sun{
+    opacity: 0;
+}
+.toggle-switch{
+    position: absolute;
+    right: 0;
+    height: 1005;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.switch{
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toggle-color);
+    transition: all 0.3s ease;
+}
+.switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--shell-color);
+    transition: all 0.3s ease;
+}
+.dark .shell li a:hover .icon,
+.dark .shell li a:hover .text{
+    color: #ccc;
+}
+.dark .mode .sun-moon i.sun{
+    opacity: 1;
+}
+.dark .mode .sun-moon i.moon{
+    opacity: 0;
+}
+.dark .switch::before{
+    left: 20px;
+}

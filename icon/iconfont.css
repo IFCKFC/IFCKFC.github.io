@@ -1,0 +1,129 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1720422908705') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 25px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-CircleMore:before {
+  content: "\e608";
+}
+
+.icon-SettingPolygon:before {
+  content: "\e609";
+}
+
+.icon-Hide:before {
+  content: "\e60a";
+}
+
+.icon-TargetArrow:before {
+  content: "\e60b";
+}
+
+.icon-ChatLineRound:before {
+  content: "\e60c";
+}
+
+.icon-ChatDotSquare:before {
+  content: "\e60d";
+}
+
+.icon-SettingSemicircle:before {
+  content: "\e60e";
+}
+
+.icon-Bell:before {
+  content: "\e60f";
+}
+
+.icon-NotebookPencil:before {
+  content: "\e610";
+}
+
+.icon-View:before {
+  content: "\e611";
+}
+
+.icon-BarChart:before {
+  content: "\e612";
+}
+
+.icon-Star:before {
+  content: "\e613";
+}
+
+.icon-ClickHand:before {
+  content: "\e614";
+}
+
+.icon-ClassSquare:before {
+  content: "\e615";
+}
+
+.icon-ClockOnetime:before {
+  content: "\e616";
+}
+
+.icon-UserMore:before {
+  content: "\e617";
+}
+
+.icon-AlarmClock:before {
+  content: "\e618";
+}
+
+.icon-Start:before {
+  content: "\e619";
+}
+
+.icon-ArrowLeft:before {
+  content: "\e61a";
+}
+
+.icon-ArrowUp:before {
+  content: "\e61b";
+}
+
+.icon-ArrowRight:before {
+  content: "\e61c";
+}
+
+.icon-ArrowDown:before {
+  content: "\e61d";
+}
+
+.icon-ListDotLine:before {
+  content: "\e61e";
+}
+
+.icon-Plus:before {
+  content: "\e61f";
+}
+
+.icon-Close:before {
+  content: "\e620";
+}
+
+.icon-CirclePause:before {
+  content: "\e621";
+}
+
+.icon-Select:before {
+  content: "\e622";
+}
+
+.icon-Delete:before {
+  content: "\e623";
+}
+
+.icon-Remind:before {
+  content: "\e624";
+}
+
