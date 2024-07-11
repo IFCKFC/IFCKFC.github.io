@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // 重置游戏状态
             win = false;
             // 更新排行榜（待做）
-            // updateScore();
+            updateScore();
             // displayRanking();
         }
 
@@ -36,18 +36,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 重置分数
         score = 0;
-        // updateScore();
+        updateScore();
 
         // 重置游戏版
         board = new Array(16).fill(0);
 
         // 随机生成两个数字
+        for (let i = 0; i < grid.length; i++) grid[i].style.transform = "scale(1)";
+        anime.remove(grid);
+
         addNumber();
         addNumber();
 
-        // 更新游戏版（Q弹特效）
-        updateBoard();
-        jump();
+        // 颜色检查（debugging）
+        board[0] = 2;
+        for (let i = 1; i < board.length; i++)
+            board[i] = board[i - 1] * 2;
+
+            // 更新游戏版（Q弹特效）
+            updateBoard();
+    }
+
+    function updateScore() {
+        document.querySelector('.score-container span').textContent = score;
+        highScore = Math.max(score, highScore);
+        document.querySelector('.best-container span').textContent = highScore;
     }
 
     // 在空白格子随机生成数字
@@ -60,49 +73,79 @@ document.addEventListener("DOMContentLoaded", function () {
             let rand = empty[Math.floor(Math.random() * empty.length)];
             // 90%的概率是2，10%的概率是4
             board[rand] = Math.random() > 0.1 ? 2 : 4;
+            jumpAnimate2(rand);
         }
     }
 
     // 更新游戏版
     function updateBoard() {
         for (let i = 0; i < board.length; i++) {
-            if (board[i] > 0) {
+            if (board[i]) {
                 // 更新数字
                 grid[i].innerText = board[i];
                 // 更新颜色
-                grid[i].style.backgroundColor = getColor(board[i]);
-                // 更新字体大小
-                adjustFontSize(grid[i]);
+                if (document.body.classList.contains("dark")) grid[i].style.backgroundColor = darkColor(board[i]);
+                else grid[i].style.backgroundColor = getColor(board[i]);
+                // 更新字体
+                adjustFont(grid[i]);
             }
             else {
                 // 清空数字
                 grid[i].innerText = "";
                 // 清空颜色
-                grid[i].style.backgroundColor = "#cdc1b4";
+                if (document.body.classList.contains("dark")) grid[i].style.backgroundColor = "#3a3b3c";
+                else grid[i].style.backgroundColor = "#eee5db";
             }
         }
     }
 
+    var modeSwitch = document.querySelector(".toggle-switch");
+    modeSwitch.addEventListener("click", () => {
+        // 检查切换模式
+        // console.log("mode: ", document.body.classList.contains("dark") ? "dark" : "light");
+        updateBoard();
+    });
+
     // 原版
-    function getColor1(num) {
+    function getColor(num) {
         switch (num) {
-            case 2: return "#eee4da"; // 浅橙色
-            case 4: return "#ede0c8"; // 淡橙色
-            case 8: return "#f2b179"; // 橙色
-            case 16: return "#f59563"; // 深橙色
-            case 32: return "#f67c5f"; // 红橙色
-            case 64: return "#f65e3b"; // 深红橙色
-            case 128: return "#edcf72"; // 黄色
-            case 256: return "#edcc61"; // 深黄色
-            case 512: return "#edc850"; // 更深黄色
-            case 1024: return "#edc53f"; // 暗黄色
-            case 2048: return "#edc22e"; // 最深黄色
+            case 2: return "#faf8ef255";    // 淡灰色
+            case 4: return "#ede0c8";    // 淡棕色
+            case 8: return "#f2b179";    // 橙色
+            case 16: return "#f59563";   // 橙红色
+            case 32: return "#f67c5f";   // 橙红色
+            case 64: return "#f65e3b";   // 红色
+            case 128: return "#edcf72";  // 黄色
+            case 256: return "#edcc61";  // 黄色
+            case 512: return "#edc850";  // 黄色
+            case 1024: return "#edc53f"; // 黄色
+            case 2048: return "#edc22e"; // 金色
+            case 4096: return "#d4a017"; // 深金色
         }
-        return "#cdc1b4";
+        return "#b87430";                // 棕色
     }
 
-    // 更新颜色
-    function getColor(num) {
+    // 深色版
+    function darkColor(num) {
+        switch (num) {
+            case 2: return "#333333";    
+            case 4: return "#555555";    
+            case 8: return "#777777";    
+            case 16: return "#999999";    
+            case 32: return "#B3B3B3";   
+            case 64: return "#CCCCCC";    
+            case 128: return "#E0E0E0";   
+            case 256: return "#D3D3FF";   
+            case 512: return "#ADD8E6";   
+            case 1024: return "#87CEEB";  
+            case 2048: return "#00BFFF"; 
+            case 4096: return "#003CBA"; 
+        }
+        return "#0000CC";                
+    }
+
+    // 更新其他颜色
+    function getColor1(num) {
         const colors = {
             2: "#FCE8E6",
             4: "#E1F8C4",
@@ -136,22 +179,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // 调暗指定的颜色
-        return darken(colors[num] || defaultColor,  15);
+        return darken(colors[num] || defaultColor, 0);
     }
 
-    // 更新字体大小
-    function adjustFontSize(grid) {
+    // 更新字体
+    function adjustFont(grid) {
         let size = grid.offsetWidth * 0.8,     // 获取格子宽度*调整比例
             fontSize = size / 2;               // 字体大小 = 格子宽度*调整比例/2
         grid.style.fontSize = fontSize + "px"; // 设置字体大小
-        grid.style.lineHeight = size + "px";   // 设置行高
+
 
         // 5位数特调
         if (grid.innerHTML.length > 4) grid.style.fontSize = `${fontSize * 0.75}px`;
 
-        // 字体的参数
-        grid.style.color = "#281F1B";
         grid.style.fontWeight = "bold";
+        // 字体的参数
+        grid.style.color = "#F9F6F0";
+        
     }
 
     // Q弹动画及音效的使用
@@ -167,7 +211,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function jumpAnimate(grid) {
         anime({
             targets: grid,            // 目标元素
-            scale: [1, 1.35, 1],      // 缩放比例    
+            scale: [1, 1.15, 1],       // 缩放比例    
+            duration: 200,            // 持续时间
+            easing: 'easeInOutQuad',  // 添加缓动效果
+            transformOrigin: 'center' // 确保缩放中心在元素的中心
+        }).finished;                  // 动画结束
+    }
+
+    // 新增数字动画
+    function jumpAnimate2(idx) {
+        anime({
+            targets: grid[idx],       // 目标元素
+            scale: [0, 1],            // 缩放比例    
             duration: 200,            // 持续时间
             easing: 'easeInOutQuad',  // 添加缓动效果
             transformOrigin: 'center' // 确保缩放中心在元素的中心
@@ -186,21 +241,20 @@ document.addEventListener("DOMContentLoaded", function () {
         move();
 
         animationMerge();
-        console.log("move1", move1);
+        // 检查动画组（debugging）
+        /*console.log("move1", move1);
         console.log("merge", merge);
         console.log("move2", move2);
         console.log("animate1", animate1);
         console.log("animate2", animate2);
-        console.log("animate3", animate3);
+        console.log("animate3", animate3);*/
 
         animateDeploy();
 
         setTimeout(() => {
             isLose();
             isWin();
-            setTimeout(() => {
-                isAnimating = false;
-            }, 50);
+            isAnimating = false;
         }, 50);
     }
 
@@ -350,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 animateRun(from, dis, val);
                 resolve();
-            }, 10);
+            }, 2);
         });
     }
 
@@ -359,7 +413,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // 获取需要建立动画的移动格
         const fromGrid = grid[from];
         // 更换颜色
-        fromGrid.style.backgroundColor = getColor(val);
+        if (document.body.classList.contains("dark")) fromGrid.style.backgroundColor = darkColor(val);
+        else fromGrid.style.backgroundColor = getColor(val);
 
         // 设置移动距离
         let animateDis = dis * 100;
@@ -392,10 +447,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // 确保动画只播放一次
             if (!upd) {
                 upd = true;
+                jump();
                 if (preBoard.join("") !== board.join("")) addNumber();
                 updateBoard();
-                // updateScore(); 待做
-                // jump();
+                updateScore();
             }
             fromGrid.style.animation = '';
             fromGrid.style.zIndex = '';
@@ -419,29 +474,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // 输了
     function isLose() {
         if (checkLose(board)) {
-            // 游戏结束（显示开始按钮）
+            // 游戏结束
             gameStarted = false;
-            // 更新排行榜（待做）
-            // updateLastScore();
-            // displayRanking();
-            // 先显示画面，再弹出提示框
-            setTimeout(() => {
-                alert("输赢什么的无所谓！再开一局吧！o(*≧▽≦)ツ┏━┓");
-            }, 300);
+            // 弹窗提示
+            document.getElementById('gameOverBoard').classList.add('active');
         }
     }
 
     // 赢了
     function isWin() {
         if (board.includes(2048) && !win) {
-            // 游戏可以选择性结束（显示开始按钮）
+            // 游戏可以选择性结束
             win = true;
-            // 先显示画面，再弹出提示框
-            isAnimating = true; // 卡操作
-            setTimeout(function () {
-                alert("恭喜你！你赢了！继续玩或者重开，任君选择吧。(￣▽￣)ノ");
-            }, 300);
-            isAnimating = false;
+            // 弹窗提示
+            document.getElementById('gameWinBoard').classList.add('active');
         }
     }
 
@@ -481,7 +527,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (dir !== null) game2048();
     });
-
-
-
 });
