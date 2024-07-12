@@ -664,15 +664,13 @@ document.addEventListener("DOMContentLoaded", function () {
         this.style.color = isSwipeModeEnabled ? "white" : "";
 
         if (isSwipeModeEnabled) {
-            document.addEventListener("touchstart", handleTouchStart, false);
-            document.addEventListener("touchend", handleTouchEnd, false);
+            
             document.addEventListener("mousedown", handleMouseDown, false);
             document.addEventListener("mouseup", handleMouseUp, false);
 
         } else {
             // 在禁用滑动模式时移除监听器
-            document.removeEventListener("touchstart", handleTouchStart, false);
-            document.removeEventListener("touchend", handleTouchEnd, false);
+            
             document.removeEventListener("mousedown", handleMouseDown, false);
             document.removeEventListener("mouseup", handleMouseUp, false);
         }
