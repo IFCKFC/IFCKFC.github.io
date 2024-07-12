@@ -654,102 +654,66 @@ document.addEventListener("DOMContentLoaded", function () {
         if (dir !== null) game2048();
     });
 
-    let startX, startY; // 开始触摸或点击的坐标
-    let isTouching = false, isSwipeModeEnabled = false; // 标记是否正在触摸或点击
-
-    // 为按钮添加点击事件监听器来切换滑动模式
+    let isSwipeModeEnabled = false;
     document.getElementById('toggleSwipeMode').addEventListener('click', function () {
         const body = document.body;
         isSwipeModeEnabled = !isSwipeModeEnabled; // 切换滑动模式的状态
-        this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式"; // 更新按钮文本
+        // 更新按钮的文本和样式
+        this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式";
         this.style.backgroundColor = isSwipeModeEnabled ? "gray" : "";
         this.style.color = isSwipeModeEnabled ? "white" : "";
 
         if (isSwipeModeEnabled) {
-            body.classList.add('no-scroll'); // 添加类来禁止滚动和文本选择
-            // 添加触摸事件和鼠标事件监听器
-            document.addEventListener('touchstart', handleStart);
-            document.addEventListener('touchend', handleEnd);
-            document.addEventListener('mousedown', handleStart);
-            document.addEventListener('mouseup', handleEnd);
-            // 添加touchmove事件监听器来阻止下滑刷新
-            document.addEventListener('touchmove', preventRefresh, { passive: false });
+            document.addEventListener("touchstart", handleTouchStart, false);
+            document.addEventListener("touchend", handleTouchEnd, false);
         } else {
-            body.classList.remove('no-scroll'); // 移除类来恢复滚动和文本选择
-            // 移除触摸事件和鼠标事件监听器
-            document.removeEventListener('touchstart', handleStart);
-            document.removeEventListener('touchend', handleEnd);
-            document.removeEventListener('mousedown', handleStart);
-            document.removeEventListener('mouseup', handleEnd);
-            // 移除touchmove事件监听器
-            document.removeEventListener('touchmove', preventRefresh, { passive: false });
+            // 在禁用滑动模式时移除监听器
+            document.removeEventListener("touchstart", handleTouchStart, false);
+            document.removeEventListener("touchend", handleTouchEnd, false);
         }
     });
 
-    function preventRefresh(e) {
-        // 可以在这里添加更多的逻辑来决定何时阻止默认行为
-        // 例如，基于滑动的方向或者其他条件
-        e.preventDefault();
+    // 触摸开始时的坐标
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    // 定义处理滑动开始和结束的函数
+    function handleTouchStart(e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
     }
 
-    // 触摸开始或鼠标按下
-    function handleStart(event) {
-        if (!isSwipeModeEnabled) return; // 如果没有启用滑动模式，则不执行
-        isTouching = true;
-        // 兼容触摸事件和鼠标事件
-        const touch = event.touches ? event.touches[0] : event;
-        startX = touch.clientX;
-        startY = touch.clientY;
-    }
+    function handleTouchEnd(e) {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
 
-    // 触摸结束或鼠标释放
-    function handleEnd(event) {
-        if (!isTouching || !isSwipeModeEnabled) return; // 如果没有开始触摸或点击，则不执行
-        isTouching = false;
-
-        // 兼容触摸事件和鼠标事件
-        const touch = event.changedTouches ? event.changedTouches[0] : event;
-        const moveEndX = touch.clientX;
-        const moveEndY = touch.clientY;
-        const X = moveEndX - startX;
-        const Y = moveEndY - startY;
-
-        // 是点按
-        if (Math.abs(X) < 9 && Math.abs(Y) < 9 && X !== 0 && Y !== 0) {
-            simulateMouseClick(touch.clientX, touch.clientY);
-            return;
+        dir = null;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            // 水平滑动
+            if (dx > 0) {
+                dir = "right";
+            } else {
+                dir = "left";
+            }
+        } else {
+            // 垂直滑动
+            if (dy > 0) {
+                dir = "down";
+            } else {
+                dir = "up";
+            }
         }
 
-        if (!gameStarted || isAnimating) return;
-        upd = false, dir = null;
+        // 检查游戏是否开始 或 动画是否结束
+        if (!gameStarted || isAnimating || dir === null) return;
 
-        const MIN_DISTANCE = 10; // 设置最小滑动距离
-        if (Math.abs(X) > Math.abs(Y) && Math.abs(X) > MIN_DISTANCE) {
-            // 判断左右滑动
-            if (X > 0) dir = "right";
-            else dir = "left";
-        } else if (Math.abs(Y) > Math.abs(X) && Math.abs(Y) > MIN_DISTANCE) {
-            // 判断上下滑动
-            if (Y > 0) dir = "down";
-            else dir = "up";
-        }
+        // 保存上一步面板
+        preBoard = [...board];
+        // 用于确保动画只播放一次
+        upd = false;
 
-        if (dir !== null) game2048();
-    }
-
-    // 将点按操作转换为模拟鼠标点击的函数
-    function simulateMouseClick(x, y) {
-        // 创建一个新的鼠标事件
-        const clickEvent = new MouseEvent('click', {
-            // 设置事件属性
-            bubbles: true, // 事件是否冒泡
-            cancelable: true, // 事件是否可以取消
-            view: window, // 事件的抽象视图
-            clientX: x, // 鼠标点击的X坐标
-            clientY: y // 鼠标点击的Y坐标
-        });
-
-        // 触发事件
-        document.elementFromPoint(x, y).dispatchEvent(clickEvent);
+        game2048();
     }
 });
