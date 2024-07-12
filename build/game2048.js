@@ -667,10 +667,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isSwipeModeEnabled) {
             body.classList.add('no-scroll'); // 添加类来禁止滚动和文本选择
-            document.addEventListener('mousedown', preventScroll, false);
+            // 添加触摸事件和鼠标事件监听器
+            document.addEventListener('touchstart', handleStart);
+            document.addEventListener('touchend', handleEnd);
+            document.addEventListener('mousedown', handleStart);
+            document.addEventListener('mouseup', handleEnd);
         } else {
             body.classList.remove('no-scroll'); // 移除类来恢复滚动和文本选择
-            document.removeEventListener('mousedown', preventScroll, false);
+            // 移除触摸事件和鼠标事件监听器
+            document.removeEventListener('touchstart', handleStart);
+            document.removeEventListener('touchend', handleEnd);
+            document.removeEventListener('mousedown', handleStart);
+            document.removeEventListener('mouseup', handleEnd);
         }
     });
 
@@ -724,14 +732,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (dir !== null) game2048();
     }
-
-    // 添加触摸事件监听器
-    document.addEventListener('touchstart', handleStart, false);
-    document.addEventListener('touchend', handleEnd, false);
-
-    // 添加鼠标事件监听器
-    document.addEventListener('mousedown', handleStart, false);
-    document.addEventListener('mouseup', handleEnd, false);
 
     // 将点按操作转换为模拟鼠标点击的函数
     function simulateMouseClick(x, y) {
