@@ -664,23 +664,13 @@ document.addEventListener("DOMContentLoaded", function () {
         this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式"; // 更新按钮文本
         this.style.backgroundColor = isSwipeModeEnabled ? "gray" : "";
         this.style.color = isSwipeModeEnabled ? "white" : "";
-    
+
         if (isSwipeModeEnabled) {
-            // 新增类禁止滚动和文本选择
-            body.classList.add('no-scroll');
-            // 添加触摸事件和鼠标事件、阻止默认行为
-            document.addEventListener('touchstart', handleStart, { passive: false });
-            document.addEventListener('touchend', handleEnd, { passive: false });
-            document.addEventListener('mousedown', handleStart, { passive: false });
-            document.addEventListener('mouseup', handleEnd, { passive: false });
+            body.classList.add('no-scroll'); // 添加类来禁止滚动和文本选择
+            document.addEventListener('mousedown', preventScroll, false);
         } else {
-            // 移除类来恢复滚动和文本选择
-            body.classList.remove('no-scroll');
-            // 移除触摸事件和鼠标事件
-            document.removeEventListener('touchstart', handleStart, { passive: false });
-            document.removeEventListener('touchend', handleEnd, { passive: false });
-            document.removeEventListener('mousedown', handleStart, { passive: false });
-            document.removeEventListener('mouseup', handleEnd, { passive: false });
+            body.classList.remove('no-scroll'); // 移除类来恢复滚动和文本选择
+            document.removeEventListener('mousedown', preventScroll, false);
         }
     });
 
@@ -689,37 +679,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 触摸开始或鼠标按下
-    function handleStart(e) {
-        // 如果没有启用滑动模式，则不执行
-        if (!isSwipeModeEnabled) return;
-        preventScroll(e);
+    function handleStart(event) {
+        if (!isSwipeModeEnabled) return; // 如果没有启用滑动模式，则不执行
         isTouching = true;
         // 兼容触摸事件和鼠标事件
-        const touch = e.touches ? e.touches[0] : event;
+        const touch = event.touches ? event.touches[0] : event;
         startX = touch.clientX;
         startY = touch.clientY;
     }
 
     // 触摸结束或鼠标释放
-    function handleEnd(e) {
+    function handleEnd(event) {
         if (!isTouching || !isSwipeModeEnabled) return; // 如果没有开始触摸或点击，则不执行
-        preventScroll(e);
         isTouching = false;
 
         // 兼容触摸事件和鼠标事件
-        const touch = e.changedTouches ? e.changedTouches[0] : e;
+        const touch = event.changedTouches ? event.changedTouches[0] : event;
         const moveEndX = touch.clientX;
         const moveEndY = touch.clientY;
         const X = moveEndX - startX;
         const Y = moveEndY - startY;
 
         if (!gameStarted || isAnimating) return;
-        upd = false;
+        upd = false, dir = null;
 
         const MIN_DISTANCE = 10; // 设置最小滑动距离
-        if (Math.abs(X) < MIN_DISTANCE && Math.abs(Y) < MIN_DISTANCE) {
-            return; // 如果移动距离太小，认为是点按，不是滑动
-        }
         if (Math.abs(X) > Math.abs(Y) && Math.abs(X) > MIN_DISTANCE) {
             // 判断左右滑动
             if (X > 0) dir = "right";
@@ -729,6 +713,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (Y > 0) dir = "down";
             else dir = "up";
         }
+
         if (dir !== null) game2048();
     }
+
+    // 添加触摸事件监听器
+    document.addEventListener('touchstart', handleStart, false);
+    document.addEventListener('touchend', handleEnd, false);
+
+    // 添加鼠标事件监听器
+    document.addEventListener('mousedown', handleStart, false);
+    document.addEventListener('mouseup', handleEnd, false);
 });
