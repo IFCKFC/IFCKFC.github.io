@@ -52,8 +52,3 @@
     right: 0;
     z-index: 1000;
 }
-.no-scroll {
-    overflow: hidden;
-    position: fixed; /* 可以防止页面滚动，但可能影响布局 */
-    width: 100%;
-}
