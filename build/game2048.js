@@ -654,10 +654,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (dir !== null) game2048();
     });
 
-    // 滑动模式的切换
     let isSwipeModeEnabled = false;
     document.getElementById('toggleSwipeMode').addEventListener('click', function () {
-        body = document.querySelector('body');
         isSwipeModeEnabled = !isSwipeModeEnabled; // 切换滑动模式的状态
         // 更新按钮的文本和样式
         this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式";
@@ -665,23 +663,12 @@ document.addEventListener("DOMContentLoaded", function () {
         this.style.color = isSwipeModeEnabled ? "white" : "";
 
         if (isSwipeModeEnabled) {
-            if (detectDeviceType() === 'Mobile') {
-                document.addEventListener("touchstart", handleTouchStart, false);
-                document.addEventListener("touchend", handleTouchEnd, false);
-                console.log("Mobile");
-            } else {
-                document.addEventListener("mousedown", handleMouseDown, false);
-                document.addEventListener("mouseup", handleMouseUp, false);
-            }
+            document.addEventListener("touchstart", handleTouchStart, false);
+            document.addEventListener("touchend", handleTouchEnd, false);
         } else {
             // 在禁用滑动模式时移除监听器
-            if (detectDeviceType() === 'Mobile') {
-                document.removeEventListener("touchstart", handleTouchStart, false);
-                document.removeEventListener("touchend", handleTouchEnd, false);
-            } else {
-                document.removeEventListener("mousedown", handleMouseDown, false);
-                document.removeEventListener("mouseup", handleMouseUp, false);
-            }
+            document.removeEventListener("touchstart", handleTouchStart, false);
+            document.removeEventListener("touchend", handleTouchEnd, false);
         }
     });
 
@@ -719,41 +706,6 @@ document.addEventListener("DOMContentLoaded", function () {
         game2048();
     }
 
-    // 电脑滑动的版本
-    let mouseStartX = 0, mouseStartY = 0;
-
-    function handleMouseDown(e) {
-        mouseStartX = e.clientX, mouseStartY = e.clientY;
-    }
-
-    function handleMouseUp(e) {
-        const mouseX = e.clientX, mouseY = e.clientY;
-        const dx = mouseX - mouseStartX, dy = mouseY - mouseStartY;
-
-        dir = null;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (dx > 0) dir = "right";
-            else dir = "left";
-        } else {
-            if (dy > 0) dir = "down";
-            else dir = "up";
-        }
-
-        if (!gameStarted || isAnimating || dir === null) return;
-
-        // 保存上一步面板
-        preBoard = [...board];
-        // 用于确保动画只播放一次
-        upd = false;
-
-        game2048();
-    }
-
-    // 检测设备类型
-    function detectDeviceType() {
-        const userAgent = navigator.userAgent;
-
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) return 'Mobile';
-        else return 'Desktop';
-    }
+    let startX = 0;
+    let startY = 0;
 });
