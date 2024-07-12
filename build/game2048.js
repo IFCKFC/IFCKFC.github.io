@@ -690,6 +690,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const touch = event.touches ? event.touches[0] : event;
         startX = touch.clientX;
         startY = touch.clientY;
+        event.preventDefault(); // 阻止默认行为，如页面滚动
+    }
+
+    // 触摸移动
+    function handleMove(event) {
+        // 如果没有启用滑动模式或没有开始触摸，不执行
+        if (!isSwipeModeEnabled || !isTouching) return;
+        event.preventDefault(); // 阻止默认行为，如页面滚动
+    }
+
+    // 在启用滑动模式时添加对触摸移动的监听
+    if (isSwipeModeEnabled) {
+        document.addEventListener('touchmove', handleMove, { passive: false });
+    } else {
+        document.removeEventListener('touchmove', handleMove, { passive: false });
     }
 
     // 触摸结束或鼠标释放
