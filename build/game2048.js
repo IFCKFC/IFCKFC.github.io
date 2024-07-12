@@ -706,15 +706,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const dx = touchEndX - touchStartX, dy = touchEndY - touchStartY;
 
         dir = null;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            // 水平滑动
-            if (dx > 0) dir = "right";
-            else dir = "left";
-        } else {
-            // 垂直滑动
-            if (dy > 0) dir = "down";
-            else dir = "up";
-        }
+        let minDis = 50; // 最小滑动距离
+        if (Math.abs(dx) > minDis || Math.abs(dy) > minDis) {
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // 水平滑动
+                if (dx > 0) dir = "right";
+                else dir = "left";
+            } else {
+                // 垂直滑动
+                if (dy > 0) dir = "down";
+                else dir = "up";
+            }
+        } else return;
 
         // 检查游戏是否开始 或 动画是否结束
         if (!gameStarted || isAnimating || dir === null) return;
@@ -739,15 +742,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const dx = mouseEndX - mouseStartX, dy = mouseEndY - mouseStartY;
 
         dir = null;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            // 水平滑动
-            if (dx > 0) dir = "right";
-            else dir = "left";
-        } else {
-            // 垂直滑动
-            if (dy > 0) dir = "down";
-            else dir = "up";
-        }
+        let minDis = 50; // 最小滑动距离
+        if (Math.abs(dx) > minDis || Math.abs(dy) > minDis) {
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // 水平滑动
+                if (dx > 0) dir = "right";
+                else dir = "left";
+            } else {
+                // 垂直滑动
+                if (dy > 0) dir = "down";
+                else dir = "up";
+            }
+        } else return;
 
         // 检查游戏是否开始 或 动画是否结束
         if (!gameStarted || isAnimating || dir === null) return;
@@ -759,18 +765,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
         game2048();
     }
-
-    function detectDeviceType() {
-        const userAgent = navigator.userAgent;
-
-        // 检测是否为移动设备
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-            return 'Mobile';
-        } else {
-            return 'Desktop';
-        }
-    }
-
-    const deviceType = detectDeviceType();
-    console.log(deviceType); // 输出 'Mobile' 或 'Desktop'
 });

@@ -1,10 +1,10 @@
-.game-container, .game-container-bg {
+.game-container,.game-container-bg {
     display: grid;
     grid-template-columns: repeat(4, 100px);
     grid-gap: 15px;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;  
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -25,10 +25,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #fff;
+    font-weight: bold;
     text-shadow: 2px 2px 4px var(--shadow);
     border-radius: 6px;
-    box-shadow: 0 3px 5px var(--grid-shadow);
+    box-shadow: 0 3px 3px var(--grid-shadow);
 }
+
 
 .containerAll{
     top: 50%;
@@ -45,10 +48,4 @@
     position: fixed;
     bottom: 16%;
     right: 3%;
-}
-.fixed-top-right {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 1000;
 }
