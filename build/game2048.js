@@ -676,7 +676,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function handleTouchMove(e) {
-        if (window.scrollY <= 50) e.preventDefault();
+        if (window.scrollY <= 50 || window.scrollX <= 50) e.preventDefault();
+        // 获取视口宽度
+        const viewportWidth = window.innerWidth;
+        // 获取页面总宽度
+        const totalWidth = document.documentElement.scrollWidth;
+        // 计算当前滚动位置加上视口宽度，得到的是当前视口右边缘相对于页面左边缘的位置
+        const currentRightPosition = window.scrollX + viewportWidth;
+
+        // 如果当前右边缘位置接近页面总宽度（即接近右边界），阻止滑动
+        // 这里的阈值（如50px）可以根据需要调整
+        if (totalWidth - currentRightPosition <= 50) e.preventDefault();
     }
 
     // 触摸开始时的坐标
