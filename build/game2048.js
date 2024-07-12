@@ -688,13 +688,49 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
     }
 
+    let startX, startY; // 开始触摸或点击的坐标
+    let isTouching = false, isSwipeModeEnabled = false; // 标记是否正在触摸或点击
+
+    // 为按钮添加点击事件监听器来切换滑动模式
+    document.getElementById('toggleSwipeMode').addEventListener('click', function () {
+        const body = document.body;
+        isSwipeModeEnabled = !isSwipeModeEnabled; // 切换滑动模式的状态
+        this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式"; // 更新按钮文本
+        this.style.backgroundColor = isSwipeModeEnabled ? "gray" : "";
+        this.style.color = isSwipeModeEnabled ? "white" : "";
+
+        if (isSwipeModeEnabled) {
+            // 新增类禁止滚动和文本选择
+            body.classList.add('no-scroll');
+            // 添加触摸事件和鼠标事件、阻止默认行为
+            document.addEventListener('touchstart', handleStart, { passive: false });
+            document.addEventListener('touchend', handleEnd, { passive: false });
+            document.addEventListener('mousedown', handleStart, { passive: false });
+            document.addEventListener('mouseup', handleEnd, { passive: false });
+        } else {
+            // 移除类来恢复滚动和文本选择
+            body.classList.remove('no-scroll');
+            // 移除触摸事件和鼠标事件
+            document.removeEventListener('touchstart', handleStart, { passive: false });
+            document.removeEventListener('touchend', handleEnd, { passive: false });
+            document.removeEventListener('mousedown', handleStart, { passive: false });
+            document.removeEventListener('mouseup', handleEnd, { passive: false });
+        }
+    });
+
+    function preventScroll(e) {
+        e.preventDefault();
+    }
+
     // 触摸开始或鼠标按下
     function handleStart(e) {
         // 如果没有启用滑动模式，则不执行
         if (!isSwipeModeEnabled) return;
+        preventScroll(e);
         isTouching = true;
+        hasMoved = false; // 初始化hasMoved变量
         // 兼容触摸事件和鼠标事件
-        const touch = e.touches ? e.touches[0] : event;
+        const touch = e.touches ? e.touches[0] : e;
         startX = touch.clientX;
         startY = touch.clientY;
     }
@@ -712,7 +748,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const X = moveEndX - startX;
         const Y = moveEndY - startY;
 
-        if (!gameStarted || isAnimating) return;
+        // 更新hasMoved变量的值
+        hasMoved = Math.abs(X) > MIN_DISTANCE || Math.abs(Y) > MIN_DISTANCE;
+
+        if (!gameStarted || isAnimating || !hasMoved) return; // 确保有足够的滑动距离
         upd = false;
 
         const MIN_DISTANCE = 10; // 设置最小滑动距离
