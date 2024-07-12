@@ -667,11 +667,15 @@ document.addEventListener("DOMContentLoaded", function () {
             document.addEventListener('touchmove', handleTouchMove, { passive: false });
             document.addEventListener("touchstart", handleTouchStart, false);
             document.addEventListener("touchend", handleTouchEnd, false);
+            document.addEventListener("mousedown", handleMouseDown, false);
+            document.addEventListener("mouseup", handleMouseUp, false);
         } else {
             // 在禁用滑动模式时移除监听器
             document.removeEventListener('touchmove', handleTouchMove, { passive: false });
             document.removeEventListener("touchstart", handleTouchStart, false);
             document.removeEventListener("touchend", handleTouchEnd, false);
+            document.removeEventListener("mousedown", handleMouseDown, false);
+            document.removeEventListener("mouseup", handleMouseUp, false);
         }
     });
 
@@ -700,6 +704,39 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleTouchEnd(e) {
         const touchEndX = e.changedTouches[0].clientX, touchEndY = e.changedTouches[0].clientY;
         const dx = touchEndX - touchStartX, dy = touchEndY - touchStartY;
+
+        dir = null;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            // 水平滑动
+            if (dx > 0) dir = "right";
+            else dir = "left";
+        } else {
+            // 垂直滑动
+            if (dy > 0) dir = "down";
+            else dir = "up";
+        }
+
+        // 检查游戏是否开始 或 动画是否结束
+        if (!gameStarted || isAnimating || dir === null) return;
+
+        // 保存上一步面板
+        preBoard = [...board];
+        // 用于确保动画只播放一次
+        upd = false;
+
+        game2048();
+    }
+
+    // 电脑版
+    let mouseStartX = 0, mouseStartY = 0;
+
+    function handleMouseDown(e) {
+        mouseStartX = e.clientX, mouseStartY = e.clientY;
+    }
+
+    function handleMouseUp(e) {
+        const mouseEndX = e.clientX, mouseEndY = e.clientY;
+        const dx = mouseEndX - mouseStartX, dy = mouseEndY - mouseStartY;
 
         dir = null;
         if (Math.abs(dx) > Math.abs(dy)) {
