@@ -655,7 +655,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     let startX, startY; // 开始触摸或点击的坐标
-    let isTouching = false, isSwipeModeEnabled; // 标记是否正在触摸或点击
+    let isTouching = false, isSwipeModeEnabled = false; // 标记是否正在触摸或点击
 
     // 为按钮添加点击事件监听器来切换滑动模式
     document.getElementById('toggleSwipeMode').addEventListener('click', function () {
@@ -668,20 +668,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isSwipeModeEnabled) {
             // 新增类禁止滚动和文本选择
             body.classList.add('no-scroll');
-            document.addEventListener('mousedown', pDB, false);
-            document.addEventListener('touchstart', pDB, false);
+            // 添加触摸事件和鼠标事件、阻止默认行为
+            document.addEventListener('touchstart', handleStart, { passive: false });
+            document.addEventListener('touchend', handleEnd, { passive: false });
+            document.addEventListener('mousedown', handleStart);
+            document.addEventListener('mouseup', handleEnd);
         } else {
             // 移除类来恢复滚动和文本选择
             body.classList.remove('no-scroll');
-            document.removeEventListener('mousedown', pDB, false);
-            document.addEventListener('touchstart', pDB, false);
+            // 移除触摸事件和鼠标事件
+            document.removeEventListener('touchstart', handleStart);
+            document.removeEventListener('touchend', handleEnd);
+            document.removeEventListener('mousedown', handleStart);
+            document.removeEventListener('mouseup', handleEnd);
         }
     });
-
-    function pDB(e) {
-        // 阻止默认行为，包括文本选择和其他可能的行为
-        e.preventDefault();
-    }
 
     // 触摸开始或鼠标按下
     function handleStart(event) {
@@ -721,12 +722,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (dir !== null) game2048();
     }
-
-    // 添加触摸事件监听器
-    document.addEventListener('touchstart', handleStart, false);
-    document.addEventListener('touchend', handleEnd, false);
-
-    // 添加鼠标事件监听器
-    document.addEventListener('mousedown', handleStart, false);
-    document.addEventListener('mouseup', handleEnd, false);
 });
