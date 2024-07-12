@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
         anime.remove(grid);
         for (let i = 0; i < grid.length; i++) grid[i].style.transform = "scale(1)";
         for (let i = 0; i < grid.length; i++) if (board[i]) jumpAnimate(grid[i]);
-        // Q弹音效（同步播放）（待做）
+        // Q弹音效（同步播放）
         playSound();
     }
 
@@ -664,44 +664,50 @@ document.addEventListener("DOMContentLoaded", function () {
         this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式"; // 更新按钮文本
         this.style.backgroundColor = isSwipeModeEnabled ? "gray" : "";
         this.style.color = isSwipeModeEnabled ? "white" : "";
-
+    
         if (isSwipeModeEnabled) {
             // 新增类禁止滚动和文本选择
             body.classList.add('no-scroll');
             // 添加触摸事件和鼠标事件、阻止默认行为
             document.addEventListener('touchstart', handleStart, { passive: false });
             document.addEventListener('touchend', handleEnd, { passive: false });
-            document.addEventListener('mousedown', handleStart);
-            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('mousedown', handleStart, { passive: false });
+            document.addEventListener('mouseup', handleEnd, { passive: false });
         } else {
             // 移除类来恢复滚动和文本选择
             body.classList.remove('no-scroll');
             // 移除触摸事件和鼠标事件
-            document.removeEventListener('touchstart', handleStart);
-            document.removeEventListener('touchend', handleEnd);
-            document.removeEventListener('mousedown', handleStart);
-            document.removeEventListener('mouseup', handleEnd);
+            document.removeEventListener('touchstart', handleStart, { passive: false });
+            document.removeEventListener('touchend', handleEnd, { passive: false });
+            document.removeEventListener('mousedown', handleStart, { passive: false });
+            document.removeEventListener('mouseup', handleEnd, { passive: false });
         }
     });
 
+    function preventScroll(e) {
+        e.preventDefault();
+    }
+
     // 触摸开始或鼠标按下
-    function handleStart(event) {
+    function handleStart(e) {
         // 如果没有启用滑动模式，则不执行
         if (!isSwipeModeEnabled) return;
+        preventScroll(e);
         isTouching = true;
         // 兼容触摸事件和鼠标事件
-        const touch = event.touches ? event.touches[0] : event;
+        const touch = e.touches ? e.touches[0] : event;
         startX = touch.clientX;
         startY = touch.clientY;
     }
 
     // 触摸结束或鼠标释放
-    function handleEnd(event) {
+    function handleEnd(e) {
         if (!isTouching || !isSwipeModeEnabled) return; // 如果没有开始触摸或点击，则不执行
+        preventScroll(e);
         isTouching = false;
 
         // 兼容触摸事件和鼠标事件
-        const touch = event.changedTouches ? event.changedTouches[0] : event;
+        const touch = e.changedTouches ? e.changedTouches[0] : e;
         const moveEndX = touch.clientX;
         const moveEndY = touch.clientY;
         const X = moveEndX - startX;
