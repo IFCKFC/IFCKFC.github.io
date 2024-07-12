@@ -664,15 +664,23 @@ document.addEventListener("DOMContentLoaded", function () {
         this.style.color = isSwipeModeEnabled ? "white" : "";
 
         if (isSwipeModeEnabled) {
-            
-            document.addEventListener("mousedown", handleMouseDown, false);
-            document.addEventListener("mouseup", handleMouseUp, false);
+            if (detectDeviceType() === 'Mobile') {
+                document.addEventListener("touchstart", handleTouchStart, false);
+                document.addEventListener("touchend", handleTouchEnd, false);
+            } else {
+                document.addEventListener("mousedown", handleMouseDown, false);
+                document.addEventListener("mouseup", handleMouseUp, false);
+            }
 
         } else {
             // 在禁用滑动模式时移除监听器
-            
-            document.removeEventListener("mousedown", handleMouseDown, false);
-            document.removeEventListener("mouseup", handleMouseUp, false);
+            if (detectDeviceType() === 'Mobile') {
+                document.removeEventListener("touchstart", handleTouchStart, false);
+                document.removeEventListener("touchend", handleTouchEnd, false);
+            } else {
+                document.removeEventListener("mousedown", handleMouseDown, false);
+                document.removeEventListener("mouseup", handleMouseUp, false);
+            }
         }
     });
 
@@ -710,7 +718,7 @@ document.addEventListener("DOMContentLoaded", function () {
         game2048();
     }
 
-    // 鼠标按下时的坐标
+    // 电脑滑动的版本
     let mouseStartX = 0, mouseStartY = 0;
 
     function handleMouseDown(e) {
@@ -738,5 +746,13 @@ document.addEventListener("DOMContentLoaded", function () {
         upd = false;
 
         game2048();
+    }
+
+    // 检测设备类型
+    function detectDeviceType() {
+        const userAgent = navigator.userAgent;
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) return 'Mobile';
+        else return 'Desktop';
     }
 });
