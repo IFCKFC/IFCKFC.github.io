@@ -657,6 +657,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 滑动模式的切换
     let isSwipeModeEnabled = false;
     document.getElementById('toggleSwipeMode').addEventListener('click', function () {
+        body = document.querySelector('body');
         isSwipeModeEnabled = !isSwipeModeEnabled; // 切换滑动模式的状态
         // 更新按钮的文本和样式
         this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式";
@@ -667,11 +668,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (detectDeviceType() === 'Mobile') {
                 document.addEventListener("touchstart", handleTouchStart, false);
                 document.addEventListener("touchend", handleTouchEnd, false);
+                console.log("Mobile");
             } else {
                 document.addEventListener("mousedown", handleMouseDown, false);
                 document.addEventListener("mouseup", handleMouseUp, false);
             }
-
         } else {
             // 在禁用滑动模式时移除监听器
             if (detectDeviceType() === 'Mobile') {
