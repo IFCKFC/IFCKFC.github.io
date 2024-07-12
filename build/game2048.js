@@ -700,6 +700,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const X = moveEndX - startX;
         const Y = moveEndY - startY;
 
+        // 是点按
+        if (Math.abs(X) < 9 && Math.abs(Y) < 9 && X !== 0 && Y !== 0) {
+            simulateMouseClick(touch.clientX, touch.clientY);
+            return;
+        }
+
         if (!gameStarted || isAnimating) return;
         upd = false, dir = null;
 
@@ -724,4 +730,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // 添加鼠标事件监听器
     document.addEventListener('mousedown', handleStart, false);
     document.addEventListener('mouseup', handleEnd, false);
+
+    // 将点按操作转换为模拟鼠标点击的函数
+    function simulateMouseClick(x, y) {
+        // 创建一个新的鼠标事件
+        const clickEvent = new MouseEvent('click', {
+            // 设置事件属性
+            bubbles: true, // 事件是否冒泡
+            cancelable: true, // 事件是否可以取消
+            view: window, // 事件的抽象视图
+            clientX: x, // 鼠标点击的X坐标
+            clientY: y // 鼠标点击的Y坐标
+        });
+
+        // 触发事件
+        document.elementFromPoint(x, y).dispatchEvent(clickEvent);
+    }
 });
