@@ -668,28 +668,33 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isSwipeModeEnabled) {
             body.classList.add('no-scroll'); // 添加类来禁止滚动和文本选择
             // 添加触摸事件和鼠标事件监听器
-            document.addEventListener('touchstart', preventScroll, handleStart);
-            document.addEventListener('touchend', preventScroll, handleEnd);
+            document.addEventListener('touchstart', handleStart);
+            document.addEventListener('touchend', handleEnd);
             document.addEventListener('mousedown', handleStart);
             document.addEventListener('mouseup', handleEnd);
+            // 添加touchmove事件监听器来阻止下滑刷新
+            document.addEventListener('touchmove', preventRefresh, { passive: false });
         } else {
             body.classList.remove('no-scroll'); // 移除类来恢复滚动和文本选择
             // 移除触摸事件和鼠标事件监听器
-            document.removeEventListener('touchstart', preventScroll, handleStart);
-            document.removeEventListener('touchend', preventScroll, handleEnd);
+            document.removeEventListener('touchstart', handleStart);
+            document.removeEventListener('touchend', handleEnd);
             document.removeEventListener('mousedown', handleStart);
             document.removeEventListener('mouseup', handleEnd);
+            // 移除touchmove事件监听器
+            document.removeEventListener('touchmove', preventRefresh, { passive: false });
         }
     });
 
-    function preventScroll(e) {
+    function preventRefresh(e) {
+        // 可以在这里添加更多的逻辑来决定何时阻止默认行为
+        // 例如，基于滑动的方向或者其他条件
         e.preventDefault();
     }
 
     // 触摸开始或鼠标按下
     function handleStart(event) {
         if (!isSwipeModeEnabled) return; // 如果没有启用滑动模式，则不执行
-        preventScroll(event);
         isTouching = true;
         // 兼容触摸事件和鼠标事件
         const touch = event.touches ? event.touches[0] : event;
@@ -700,7 +705,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 触摸结束或鼠标释放
     function handleEnd(event) {
         if (!isTouching || !isSwipeModeEnabled) return; // 如果没有开始触摸或点击，则不执行
-        preventScroll(event);
         isTouching = false;
 
         // 兼容触摸事件和鼠标事件
