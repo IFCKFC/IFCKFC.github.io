@@ -663,14 +663,21 @@ document.addEventListener("DOMContentLoaded", function () {
         this.style.color = isSwipeModeEnabled ? "white" : "";
 
         if (isSwipeModeEnabled) {
+            // 在启用滑动模式时添加监听器
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
             document.addEventListener("touchstart", handleTouchStart, false);
             document.addEventListener("touchend", handleTouchEnd, false);
         } else {
             // 在禁用滑动模式时移除监听器
+            document.removeEventListener('touchmove', handleTouchMove, { passive: false });
             document.removeEventListener("touchstart", handleTouchStart, false);
             document.removeEventListener("touchend", handleTouchEnd, false);
         }
     });
+
+    function handleTouchMove(e) {
+        if (!window.scrollY) e.preventDefault();
+    }
 
     // 触摸开始时的坐标
     let touchStartX = 0, touchStartY = 0;
@@ -706,6 +713,17 @@ document.addEventListener("DOMContentLoaded", function () {
         game2048();
     }
 
-    let startX = 0;
-    let startY = 0;
+    function detectDeviceType() {
+        const userAgent = navigator.userAgent;
+
+        // 检测是否为移动设备
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+            return 'Mobile';
+        } else {
+            return 'Desktop';
+        }
+    }
+
+    const deviceType = detectDeviceType();
+    console.log(deviceType); // 输出 'Mobile' 或 'Desktop'
 });
