@@ -676,7 +676,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function handleTouchMove(e) {
-        if (!window.scrollY) e.preventDefault();
+        if (window.scrollY <= 50) e.preventDefault();
     }
 
     // 触摸开始时的坐标
