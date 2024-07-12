@@ -692,7 +692,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleStart(e) {
         // 如果没有启用滑动模式，则不执行
         if (!isSwipeModeEnabled) return;
-        preventScroll(e);
         isTouching = true;
         // 兼容触摸事件和鼠标事件
         const touch = e.touches ? e.touches[0] : event;
