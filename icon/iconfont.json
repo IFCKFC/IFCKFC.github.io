@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1000802",
+      "name": "heart",
+      "font_class": "heart",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
       "icon_id": "40794535",
       "name": "CircleMore",
       "font_class": "CircleMore",
@@ -65,148 +72,162 @@
       "icon_id": "40794553",
       "name": "NotebookPencil",
       "font_class": "NotebookPencil",
-      "unicode": "e610",
-      "unicode_decimal": 58896
+      "unicode": "e611",
+      "unicode_decimal": 58897
     },
     {
       "icon_id": "40794554",
       "name": "View",
       "font_class": "View",
-      "unicode": "e611",
-      "unicode_decimal": 58897
+      "unicode": "e612",
+      "unicode_decimal": 58898
     },
     {
       "icon_id": "40794556",
       "name": "BarChart",
       "font_class": "BarChart",
-      "unicode": "e612",
-      "unicode_decimal": 58898
+      "unicode": "e613",
+      "unicode_decimal": 58899
     },
     {
       "icon_id": "40794558",
       "name": "Star",
       "font_class": "Star",
-      "unicode": "e613",
-      "unicode_decimal": 58899
+      "unicode": "e614",
+      "unicode_decimal": 58900
     },
     {
       "icon_id": "40794559",
       "name": "ClickHand",
       "font_class": "ClickHand",
-      "unicode": "e614",
-      "unicode_decimal": 58900
+      "unicode": "e615",
+      "unicode_decimal": 58901
     },
     {
       "icon_id": "40794562",
       "name": "ClassSquare",
       "font_class": "ClassSquare",
-      "unicode": "e615",
-      "unicode_decimal": 58901
+      "unicode": "e616",
+      "unicode_decimal": 58902
     },
     {
       "icon_id": "40794563",
       "name": "ClockOnetime",
       "font_class": "ClockOnetime",
-      "unicode": "e616",
-      "unicode_decimal": 58902
+      "unicode": "e617",
+      "unicode_decimal": 58903
     },
     {
       "icon_id": "40794567",
       "name": "UserMore",
       "font_class": "UserMore",
-      "unicode": "e617",
-      "unicode_decimal": 58903
+      "unicode": "e618",
+      "unicode_decimal": 58904
     },
     {
       "icon_id": "40794571",
       "name": "AlarmClock",
       "font_class": "AlarmClock",
-      "unicode": "e618",
-      "unicode_decimal": 58904
+      "unicode": "e619",
+      "unicode_decimal": 58905
     },
     {
       "icon_id": "40794577",
       "name": "Start",
       "font_class": "Start",
-      "unicode": "e619",
-      "unicode_decimal": 58905
+      "unicode": "e61a",
+      "unicode_decimal": 58906
     },
     {
       "icon_id": "40794580",
       "name": "ArrowLeft",
       "font_class": "ArrowLeft",
-      "unicode": "e61a",
-      "unicode_decimal": 58906
+      "unicode": "e61b",
+      "unicode_decimal": 58907
     },
     {
       "icon_id": "40794581",
       "name": "ArrowUp",
       "font_class": "ArrowUp",
-      "unicode": "e61b",
-      "unicode_decimal": 58907
+      "unicode": "e61c",
+      "unicode_decimal": 58908
     },
     {
       "icon_id": "40794582",
       "name": "ArrowRight",
       "font_class": "ArrowRight",
-      "unicode": "e61c",
-      "unicode_decimal": 58908
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "40794583",
+      "name": "Search",
+      "font_class": "Search",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
     },
     {
       "icon_id": "40794584",
       "name": "ArrowDown",
       "font_class": "ArrowDown",
-      "unicode": "e61d",
-      "unicode_decimal": 58909
+      "unicode": "e61f",
+      "unicode_decimal": 58911
     },
     {
       "icon_id": "40794585",
       "name": "ListDotLine",
       "font_class": "ListDotLine",
-      "unicode": "e61e",
-      "unicode_decimal": 58910
+      "unicode": "e620",
+      "unicode_decimal": 58912
     },
     {
       "icon_id": "40794586",
       "name": "Plus",
       "font_class": "Plus",
-      "unicode": "e61f",
-      "unicode_decimal": 58911
+      "unicode": "e621",
+      "unicode_decimal": 58913
     },
     {
       "icon_id": "40794589",
       "name": "Close",
       "font_class": "Close",
-      "unicode": "e620",
-      "unicode_decimal": 58912
+      "unicode": "e622",
+      "unicode_decimal": 58914
     },
     {
       "icon_id": "40794591",
       "name": "CirclePause",
       "font_class": "CirclePause",
-      "unicode": "e621",
-      "unicode_decimal": 58913
+      "unicode": "e623",
+      "unicode_decimal": 58915
     },
     {
       "icon_id": "40794593",
       "name": "Select",
       "font_class": "Select",
-      "unicode": "e622",
-      "unicode_decimal": 58914
+      "unicode": "e624",
+      "unicode_decimal": 58916
     },
     {
       "icon_id": "40794596",
       "name": "Delete",
       "font_class": "Delete",
-      "unicode": "e623",
-      "unicode_decimal": 58915
+      "unicode": "e625",
+      "unicode_decimal": 58917
     },
     {
       "icon_id": "40794600",
       "name": "Remind",
       "font_class": "Remind",
-      "unicode": "e624",
-      "unicode_decimal": 58916
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "40794613",
+      "name": "UserHeart",
+      "font_class": "UserHeart",
+      "unicode": "e627",
+      "unicode_decimal": 58919
     }
   ]
 }

@@ -13,6 +13,7 @@ body{
     background: var(--body-color);
     transition: all 0.3s ease;
     user-select: none;
+    font-family: sans-serif;
 }
 /* 设置全局变量 */
 :root{
@@ -22,7 +23,7 @@ body{
     --primary-color-light: #faefd6;
     --toggle-color: #ddd;
     --text-color: #734D29;
-    --popbackground: #ebe9e1;
+    --popbackground: #fff;
     --shadow: #676767;
     --memberTextName-color: #141414;
     --memberTextNum-color: #2d2d2d;
@@ -30,6 +31,7 @@ body{
     --grid-bg-color: #84694f;
     --startGameBtn-color: #f59563;
     --grid-shadow: #000;
+    --rank-sp: #ebd49f;
 }
 /* 夜间模式 */
 .dark{
@@ -45,50 +47,9 @@ body{
     --memberTextNum-color: #dad5d5;
     --grid-color: #3a3b3c;
     --grid-bg-color: #171717;
-    --startGameBtn-color: #a043c4;
+    --startGameBtn-color: #5a5c68;
     --grid-shadow: #ccc;
-}
-/* 背景 */
-.container{
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    z-index: -10;
-}
-
-/* 泡泡设定 */
-.bubbles{
-    position: fixed;
-    display: flex;
-}
-.bubbles span{
-    position: relative;
-    width: 30px;
-    height: 30px;
-    background: #4fc3dc;
-    margin: 0 4px;
-    border-radius: 50%;
-    box-shadow: 0 0 0 10px #4fc3dc44,
-    0 0 50px #4fc3dc,
-    0 0 100px #4fc3dc;
-    animation: animate 15s linear infinite;
-    animation-duration: calc(200s / var(--i));
-}
-.bubbles span:nth-child(even){
-    background: #bf35ff;
-    box-shadow: 0 0 0 10px #bf35ff44,
-    0 0 50px #bf35ff,
-    0 0 100px #bf35ff;
-}
-/* 泡泡动画 */
-@keyframes animate{
-    0%{
-        transform: translateY(120vh) scale(0);
-    }
-    100%{
-        transform: translateY(-10vh) scale(1);
-    }
+    --rank-sp: #797a7a;
 }
 
 /* 侧边栏 */
@@ -221,7 +182,7 @@ header{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-y: scoll;
+    overflow-y: scroll;
 }
 .menu-bar::-webkit-scrollbar{
     display: none;
@@ -245,7 +206,7 @@ header{
 .toggle-switch{
     position: absolute;
     right: 0;
-    height: 1005;
+    height: 100%;
     min-width: 60px;
     display: flex;
     align-items: center;
@@ -289,6 +250,267 @@ header{
 
 /* 弹出层： */
 
+/* 玩法介绍 */
+.popup-introduction{
+    position: fixed;  
+    top: 50%;  
+    left: 50%;  
+    border-radius: 18px;
+    transform: translate(-50%, -50%) scale(0);  
+    border: 1px solid black;  
+    padding: 20px;  
+    height: 770px;
+    width: 1000px;
+    z-index: 200;  
+    opacity: 0;
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.popup-introduction.active{
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 1;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+#closeBtnIntroduction{
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    width: 1px;
+    height: 1px;
+    cursor: pointer;
+    position: absolute;
+    right: 6%;
+    top: 4%;
+}
+
+/* 难度设置 */
+.popup-difficulty{
+    position: absolute;  
+    top: 37%;  
+    left: 173%;  
+    border-radius: 18px;
+    transform: translate(-100%, -100%) scale(0);  
+    border: 1px solid black;  
+    padding: 20px;  
+    height: 300px;
+    width: 300px;
+    z-index: 200;  
+    opacity: 0;
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.popup-difficulty.active{
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 0.95;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+
+
+/* 音量控制 */
+.popup-volume{
+    position: absolute;  
+    top: 38%;  
+    left: 195%;  
+    border-radius: 18px;
+    transform: translate(-100%, -100%) scale(0);  
+    border: 1px solid black;  
+    padding: 20px;  
+    height: 200px;
+    width: 400px;
+    z-index: 200;  
+    opacity: 0;
+    text-align: center;
+    place-items: center;
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.popup-volume.active{
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 0.95;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+
+.volumeContainer{
+    position: absolute;
+    right: 5%;
+    height: 75px;
+    width: 280px;
+    background-color: var(--shell-color);
+    border-radius: 10px;
+    padding: 0 10px 0 10px;
+    box-shadow: 2px 4px 8px var(--shadow);
+}
+#Bgm-container{
+    top: 7%;
+}
+#Act-container{
+    bottom: 9%;
+}
+.sliderValue{
+    position: relative;
+    width: 140%;
+    left: 15%;
+}
+.sliderValue span{
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    transform: translateX(-70%) scale(0);
+    opacity: 0;
+    font-weight: 600;
+    top: -40px;
+    line-height: 55px;
+    z-index: 2;
+    color: #f4f4f4;
+    transform-origin: bottom;
+    text-shadow: 2px 2px 4px #000;
+    transition: transform 0.3s ease;
+}
+.sliderValue span.show{
+    opacity: 1;
+    transform: translateX(-70%) scale(1);
+    transition: transform 0.3s ease;
+}
+.sliderValue span::after{
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-color: var(--text-color); 
+    z-index: -1;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    border-bottom-left-radius: 50%;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+}
+.field{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+}
+.field .value{
+    position: absolute;
+    font-size: 18px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+.field .value.left{
+    left: 7px;
+}
+.field .value.right{
+    right: 7px;
+}
+.volumeContainer input{
+    position: absolute;
+    left: 9%;
+    width: 75%;
+    height: 3px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    z-index: 200;
+    cursor: pointer;
+}
+#nameBgm{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    top: 7%;
+    line-height: 70px;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    text-shadow: 0 1px 2px #898989;
+}
+#nameAct{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    bottom: 11%;
+    line-height: 70px;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    text-shadow: 0 1px 2px #898989;
+}
+
+
+
+/* 主题切换 */
+.popup-skin{
+    position: absolute;  
+    top: 57.7%;  
+    left: 150%;  
+    border-radius: 18px;
+    transform: translate(-100%, -100%) scale(0);  
+    border: 1px solid black;  
+    padding: 20px;  
+    height: 400px;
+    width: 200px;
+    z-index: 200;  
+    opacity: 0;
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.popup-skin.active{
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 0.95;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+
+
+/* 模式选择 */
+.popup-modeChoice{
+    position: absolute;  
+    top: 48%;  
+    left: 150%;  
+    border-radius: 18px;
+    transform: translate(-100%, -100%) scale(0);  
+    border: 1px solid black;  
+    padding: 20px;  
+    height: 100px;
+    width: 200px;
+    z-index: 200;  
+    opacity: 0;
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.popup-modeChoice.active{
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 1;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+#toggleSwipeMode{
+    position: absolute;
+    top: 30%;
+    left: 13%;
+    outline: none;
+    border-radius: 10px;
+    border: none;
+    width: 150px;
+    height: 40px;
+    background-color: var(--primary-color-light);
+    color: var(--text-color);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    text-shadow: 0 0 1px var(--shadow);
+}
+#toggleSwipeMode:active{
+    transform: scale(0.92);
+}
+
+
+
 /* 意见建议 */
 .popup-advice {  
     position: fixed;  
@@ -297,7 +519,6 @@ header{
     border-radius: 18px;
     transform: translate(-50%, -50%) scale(0);  
     border: 1px solid black;  
-    background-color: white;  
     padding: 20px;  
     height: 500px;
     width: 800px;
@@ -387,6 +608,48 @@ header{
     top: 5%;
 }
 
+/* 意见建议反馈 */
+.popup-feedback{
+    position: fixed;  
+    top: 50%;  
+    left: 50%;  
+    border-radius: 18px;
+    transform: translate(-50%, -50%) scale(0);  
+    border: 1px solid black;  
+    background-color: white;  
+    padding: 20px;  
+    height: 150px;
+    width: 500px;
+    z-index: 200;  
+    opacity: 0;  
+    background-color: var(--popbackground);
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}.popup-feedback.active {  
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+#feedbackText{
+    position: absolute; 
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--text-color);
+    left: 10%;
+    top: 20%;
+}
+#closeBtnFeedback{
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    width: 1px;
+    height: 1px;
+    cursor: pointer;
+    position: absolute;
+    right: 11%;
+    top: 12%;
+}
+
+
 /* 制作团队 */
 .popup-productionTeam {  
     position: fixed;  
@@ -472,7 +735,7 @@ header{
     height: 280px;
     width: 220px;
     top: 17%;
-    left: 40%;
+    left: 38%;
 }
 .XBN img{
     display: flex;
@@ -483,7 +746,7 @@ header{
     overflow: hidden;
     object-fit: cover;
     top: 20%;
-    left: 43%;
+    left: 41%;
 }
 .XBN strong{
     display: flex;
@@ -494,7 +757,7 @@ header{
     letter-spacing: 2px;
     margin-top: 10px;
     top: 41%;
-    left: 46%;
+    left: 44%;
 }
 .XBN p{
     display: flex;
@@ -504,7 +767,7 @@ header{
     letter-spacing: 1px;
     margin:5px 0;
     top: 48%;
-    left: 45.6%;
+    left: 43.6%;
 }
 .LZH{
     display: flex;
@@ -512,7 +775,7 @@ header{
     height: 280px;
     width: 220px;
     top: 17%;
-    right: 3%;
+    right: 4%;
 }
 .LZH img{
     display: flex;
@@ -523,7 +786,7 @@ header{
     overflow: hidden;
     object-fit: cover;
     top: 20%;
-    left: 81%;
+    left: 77%;
 }
 .LZH strong{
     display: flex;
@@ -534,7 +797,7 @@ header{
     letter-spacing: 2px;
     margin-top: 10px;
     top: 41%;
-    left: 83.5%;
+    left: 79.5%;
 }
 .LZH p{
     display: flex;
@@ -544,7 +807,7 @@ header{
     letter-spacing: 1px;
     margin:5px 0;
     top: 48%;
-    left: 83%;
+    left: 79%;
 }
 .WX{
     display: flex;
@@ -552,7 +815,7 @@ header{
     height: 280px;
     width: 220px;
     top: 55%;
-    left: 22%;
+    left: 20%;
 }
 .WX img{
     display: flex;
@@ -563,7 +826,7 @@ header{
     overflow: hidden;
     object-fit: cover;
     top: 58%;
-    left: 25%;
+    left: 23%;
 }
 .WX strong{
     display: flex;
@@ -574,7 +837,7 @@ header{
     letter-spacing: 2px;
     margin-top: 10px;
     top: 79%;
-    left: 29%;
+    left: 27%;
 }
 .WX p{
     display: flex;
@@ -584,7 +847,7 @@ header{
     letter-spacing: 1px;
     margin:5px 0;
     top: 86%;
-    left: 27%;
+    left: 25%;
 }
 .NX{
     display: flex;
@@ -592,7 +855,7 @@ header{
     height: 280px;
     width: 220px;
     top: 55%;
-    left: 60%;
+    left: 58%;
 }
 .NX img{
     display: flex;
@@ -603,7 +866,7 @@ header{
     overflow: hidden;
     object-fit: cover;
     top: 58%;
-    left: 63%;
+    left: 61%;
 }
 .NX strong{
     display: flex;
@@ -614,7 +877,7 @@ header{
     letter-spacing: 2px;
     margin-top: 10px;
     top: 79%;
-    left: 67.4%;
+    left: 65.4%;
 }
 .NX p{
     display: flex;
@@ -624,8 +887,19 @@ header{
     letter-spacing: 1px;
     margin:5px 0;
     top: 86%;
-    left: 65.3%;
+    left: 63.3%;
 }
+.heart{
+    position: absolute;
+    top: -43%;
+    right: 0%;
+    font-weight: 600;
+    color: #b0b0b0;
+}
+.heart.active{
+    color: red;
+}
+
 #closeBtnProductionTeam{
     border-radius: 50%;
     border: none;
@@ -652,6 +926,9 @@ header{
     width: 100vh;
     z-index: 200;  
     opacity: 0;
+    display: flex;  
+    flex-direction: column;  
+    overflow: hidden;
     background-color: var(--popbackground);
     transition: transform 0.4s ease, opacity 0.4s ease;  
 } 
@@ -660,11 +937,43 @@ header{
     opacity: 0.95;  
     transition: transform 0.4s ease, opacity 0.4s ease;  
 }
+#Pop-achievementHeader{
+    position: fixed;
+    top: 1%;
+    left: 1%;
+    height: 7vh;
+    width: 98vh;
+    z-index: 300;
+}
+.achievement-list-container {
+    top: 30%;
+    width: 100%;
+    max-height: calc(100% - 7vh);
+    overflow-y: auto;
+    margin-top: 7vh;
+}
+.achievement-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.achievement-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #dfe1e8;
+    border-radius: 8px;
+}
+.achievement-item.completed {  
+    background-color: #d4edda; /* 已完成成就的背景色 */  
+}
+
 #iconAchievement{
     min-width: 60px;
     border-radius: 6px;
     height: 5%;
+    top: 50%;
     display: flex;
+    position: absolute;
     justify-content: left;
     font: 600 35px ''; 
 }
@@ -674,8 +983,8 @@ header{
     font-size: 40px;
     font-weight: bold;
     color: var(--text-color);
-    left: 8%;
-    top: 1.5%;
+    left: 5.5%;
+    top: 10%;
 }
 #closeBtnAchievement{
     border-radius: 50%;
@@ -685,15 +994,15 @@ header{
     height: 1px;
     cursor: pointer;
     position: absolute;
-    right: 7%;
-    top: 5%;
+    right: 5.7%;
+    top: 20%;
 }
 
 /* 分数板 */
 .scores-container{
     position: fixed;
-    top: 12%;
-    left: 36%;
+    top: 7.8%;
+    left: 3%;
     height: 90px;
     width: 300px;
     padding: 10px 14px;
@@ -747,13 +1056,13 @@ header{
 }
 
 
-/* 开始游戏按钮Animation */
+/* 开始游戏按钮 + Animation */
 #startGameButton{
     position: fixed;
     outline: none;
     padding: 10px 22px;
-    top: 16%;
-    left: 56%;
+    top: 13%;
+    left: 70%;
     border-radius: 10px;
     border: none;
     background-color: var(--startGameBtn-color);
@@ -845,16 +1154,16 @@ header{
     font-size: 20px;
     font-weight: 600;
 }
-.rankingList-container{
+.rankingList-container{  /* 有改动 */
     position: fixed;  
     top: 71.5%;  
-    left: 86.6%;
+    left: 90%;
     border-radius: 18px;
     transform: translate(-15%, -15%) scale(0);  
     border: 1px solid var(--primary-color);    
     padding: 20px;  
     height: 400px;
-    width: 400px;
+    width: 300px;
     z-index: 200;  
     opacity: 0;
     background-color: var(--popbackground);
@@ -865,9 +1174,31 @@ header{
     opacity: 0.98;  
     transition: transform 0.3s ease, opacity 0.3s ease;  
 }
-
-.gameOverBoard{
+.ranking-item {
+    font-size: 25px;
+    font-weight: bolder;
+    color: var(--text-color);
+    border-radius: 7px;
+    width: 200px;    /* 有改动 */
+    background-color: var(--primary-color-light);
+    height: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.ranking-item-sp{
+    background-color: var(--rank-sp);
+}
+#rankingList{
     position: fixed;
+    left: 14%;
+}
+li{
+    margin-bottom: 15px;
+}
+
+
+/* 游戏结束弹出层 */
+.gameOverBoard{
+    position: fixed;    /* 这里更改了position的属性值为fixed（原本为absolute） */
     top: 50%;
     left: 50%;
     width: 470px;
@@ -901,7 +1232,7 @@ header{
 
 /* 游戏胜利弹出层 */
 .gameWinBoard{
-    position: fixed;
+    position: fixed;    
     top: 50%;
     left: 50%;
     width: 470px;
