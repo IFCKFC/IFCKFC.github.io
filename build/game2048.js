@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.textContent = isSwipeModeEnabled ? "禁用滑动模式" : "启动滑动模式"; // 更新按钮文本
         this.style.backgroundColor = isSwipeModeEnabled ? "gray" : "";
         this.style.color = isSwipeModeEnabled ? "white" : "";
-
+    
         if (isSwipeModeEnabled) {
             // 新增类禁止滚动和文本选择
             body.classList.add('no-scroll');
@@ -728,9 +728,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!isSwipeModeEnabled) return;
         preventScroll(e);
         isTouching = true;
-        hasMoved = false; // 初始化hasMoved变量
         // 兼容触摸事件和鼠标事件
-        const touch = e.touches ? e.touches[0] : e;
+        const touch = e.touches ? e.touches[0] : event;
         startX = touch.clientX;
         startY = touch.clientY;
     }
@@ -748,13 +747,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const X = moveEndX - startX;
         const Y = moveEndY - startY;
 
-        // 更新hasMoved变量的值
-        hasMoved = Math.abs(X) > MIN_DISTANCE || Math.abs(Y) > MIN_DISTANCE;
-
-        if (!gameStarted || isAnimating || !hasMoved) return; // 确保有足够的滑动距离
+        if (!gameStarted || isAnimating) return;
         upd = false;
 
         const MIN_DISTANCE = 10; // 设置最小滑动距离
+        if (Math.abs(X) < MIN_DISTANCE && Math.abs(Y) < MIN_DISTANCE) {
+            return; // 如果移动距离太小，认为是点按，不是滑动
+        }
         if (Math.abs(X) > Math.abs(Y) && Math.abs(X) > MIN_DISTANCE) {
             // 判断左右滑动
             if (X > 0) dir = "right";
