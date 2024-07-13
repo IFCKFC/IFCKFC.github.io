@@ -44,8 +44,9 @@
     transform: translate(-50%, -50%);
 }
 #tips{
+    font-size: 15px;
     color: gray;
     position: fixed;
-    bottom: 16%;
-    right: 3%;
+    bottom: 17%;
+    right: 2%;
 }

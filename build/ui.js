@@ -63,16 +63,31 @@ const sidebarContent = `
         </div>
 
         <!-- 水印 -->
-        <div id="tips">按Alt+T重置面板(最佳分数、排行榜)</div>
+        <div id="tips">按Alt+T重置面板(分数、排行榜、成就)</div>
+
+        <!-- 音乐播放器 -->
+        <div class="audio-container">
+            <audio id="audioPlayer" src="audio/luvLetter.mp3" type="audio/mp3"></audio>
+            <img src="image/album/luvletter.jpg" alt="luvLetter" id="playBtn">
+            <button id="toggle-playlist">
+                <i class="iconfont icon-ListDotLine icon" id="iconPlayList"></i>
+            </button>  
+        </div>
+        <div id="playlist" class="hidden">  
+            <ul>  
+                <li data-src="audio/luvLetter.mp3" data-img="image/album/luvletter.jpg">Luv Letter</li>  
+                <li data-src="audio/flowerDance.mp3" data-img="image/album/flowerdance.jpg">Flower Dance</li>  
+                <li data-src="audio/summer.mp3" data-img="image/album/summer.jpg">Summer</li>  
+                <!-- 更多歌曲 -->  
+            </ul>  
+        </div>  
 
     </div>
     <nav class="shell close"> <!-- 侧边栏 -->
         <header>
             <div class="image-text">
                 <span class="image">
-                    <a href="index.html">
-                        <img src="image/logo.png" alt="2048">
-                    </a>
+                    <img src="image/logo.png" id="logo" alt="2048">
                 </span>
                 <div class="image logo-text">
                     <span class="text name">2048</span>
@@ -143,23 +158,24 @@ const sidebarContent = `
                 <div id="Pop-volume" class="popup-volume">
                     <div id="Bgm-container" class="volumeContainer">
                         <div class="sliderValue">
-                            <span id="sliderValueTextBgm" class="sliderValueText">10</span>
+                            <span id="sliderValueTextBgm" class="sliderValueText">30</span>
                         </div>
                         <div class="field">
                             <div class="value left">0</div>
-                            <input type="range" id="bgm" class="volumeControl" value="10"></input>
+                            <input type="range" id="bgm" class="volumeControl" value="30"></input>
                             <div class="value right">100</div>
                         </div>
                     </div>
                     <div id="nameBgm">音乐</div>
                     <div id="Act-container" class="volumeContainer">
                         <div class="sliderValue">
-                            <span id="sliderValueTextAct" class="sliderValueText">10</span>
+                            <span id="sliderValueTextAct" class="sliderValueText">30</span>
                         </div>
                         <div class="field">
                             <div class="value left">0</div>
                             <audio id="pop" src="audio/pop.mp3" preload="auto"></audio>
-                            <input type="range" id="act" class="volumeControl" value="10"></input>
+                            <audio id="acIS" src="audio/acIS.mp3" preload="auto"></audio>
+                            <input type="range" id="act" class="volumeControl" value="30"></input>
                             <div class="value right">100</div>
                         </div>
                     </div>  
@@ -167,7 +183,23 @@ const sidebarContent = `
                 </div>
 
                 <!-- 主题切换弹出层 -->
-                <div id="Pop-skin" class="popup-skin"> </div>
+                <div id="Pop-skin" class="popup-skin">
+                    <div id="Gold" class="skin-container">
+                        <button id="goldBtn" class="skinBtn">暮土金</button>
+                    </div>
+                    <div id="Blue" class="skin-container">
+                        <button id="blueBtn" class="skinBtn">海湾蓝</button>
+                    </div>
+                    <div id="Pink" class="skin-container">
+                        <button id="pinkBtn" class="skinBtn">梦幻粉</button>
+                    </div>
+                    <div id="Macaroon" class="skin-container">
+                        <button id="macaroonBtn" class="skinBtn">马卡龙</button>
+                    </div>
+                    <div id="Cyber" class="skin-container">
+                        <button id="cyberBtn" class="skinBtn">赛博风</button>
+                    </div>
+                </div>
 
                 <!-- 模式选择弹出层 -->
                 <div id="Pop-modeChoice" class="popup-modeChoice">
@@ -288,31 +320,31 @@ const sidebarContent = `
             <img src="image/member/LYQ.jpg" alt="Long">
             <strong>龍毅翹</strong>
             <p>2307010131</p>
-            <i class="iconfont icon-UserHeart icon heart"></i>
+            <i class="iconfont icon-UserHeart icon heart" id="like1"></i>
         </div>
         <div class="XBN">
             <img src="image/member/XBN.jpg" alt="Xia">
             <strong>夏伯农</strong>
             <p>2307010420</p>
-            <i class="iconfont icon-UserHeart icon heart"></i>
+            <i class="iconfont icon-UserHeart icon heart" id="like2"></i>
         </div>
         <div class="LZH">
             <img src="image/member/LZH.jpg" alt="Liu">
             <strong>刘子菡</strong>
             <p>2307010113</p>
-            <i class="iconfont icon-UserHeart icon heart"></i>
+            <i class="iconfont icon-UserHeart icon heart" id="like3"></i>
         </div>
         <div class="WX">
             <img src="image/member/WX.jpg" alt="Wang">
             <strong>王檄</strong>
             <p>2307010215</p>
-            <i class="iconfont icon-UserHeart icon heart"></i>
+            <i class="iconfont icon-UserHeart icon heart" id="like4"></i>
         </div>
         <div class="NX">
             <img src="image/member/NX.jpg" alt="Niu">
             <strong>牛翔</strong>
             <p>2307010310</p>
-            <i class="iconfont icon-UserHeart icon heart"></i>
+            <i class="iconfont icon-UserHeart icon heart" id="like5"></i>
         </div>
         <button id="closeBtnProductionTeam" class="closePopup">
             <i class="iconfont icon-Close icon"></i>
@@ -343,10 +375,26 @@ const sidebarContent = `
                     <h3>初出茅庐</h3>  
                     <p>孺子可教也</p>  
                 </li>  
+                <li class="achievement-item">
+                    <h3>呜呜伯┭┮﹏┭┮</h3>
+                    <p>呜呜伯想让你加入呜呜邪教，你无奈的回复了一个“558”给他……</p>
+                </li>
                 <li class="achievement-item">  
                     <h3>小试牛刀</h3>  
                     <p>你也喜欢这种丝滑合并的感觉吧？</p>  
                 </li>  
+                <li class="achievement-item">
+                    <h3>炉火纯青</h3>
+                    <p>看到没，这就是手感！</p>
+                </li>
+                <li class="achievement-item">
+                    <h3>独孤求败</h3>
+                    <p>你已经超越了大多数人，但是你还有很长的路要走</p>
+                </li>
+                <li class="achievement-item">
+                    <h3>一代呜呜伯</h3>
+                    <p>糟糕…………玩上头了(￣▽￣)"</p>
+                </li>
                 <li class="achievement-item">  
                     <h3>失败是成功他妈</h3>  
                     <p>这不会是最后一次…………吧？</p>  
@@ -355,6 +403,9 @@ const sidebarContent = `
                     <h3>键之力三段</h3>  
                     <p>三十年河东，三十年河西……</p>  
                 </li>  
+                <li class="achievement-item">
+                    <h3>呜呜伯累了.(&#180A&#96&#42)</h3>
+                    <p>呜呜伯按不动了，呜呜呜……</p>
                 <li class="achievement-item">  
                     <h3>大键师</h3>  
                     <p>去吧，佛生气键盘莲花！</p>  
@@ -367,13 +418,17 @@ const sidebarContent = `
                     <h3>键帝</h3>  
                     <p>你的键盘还好吗？</p>  
                 </li>  
+                <li class="achievement-item">
+                    <h3>键神</h3>
+                    <p>你的键盘已经被你玩坏了！(╯° °)╯︵ ┻━┻</p>
+                </li>
                 <li class="achievement-item">  
-                    <h3>终于等到你</h3>  
-                    <p>还好你没放弃</p>  
+                    <h3>呜呜，终于赢了</h3>  
+                    <p>呜呜呜呜呜呜，为什么2048不呜呜˶T⚰︎T˵</p>  
                 </li>  
                 <li class="achievement-item">  
                     <h3>爱要大声说出来</h3>  
-                    <p>恨也是（第一次使用意见反馈）</p>  
+                    <p>恨也是（第一次使用意见反馈系统）</p>  
                 </li>  
                 <li class="achievement-item">  
                     <h3>耳膜破坏者</h3>  
@@ -385,7 +440,7 @@ const sidebarContent = `
                 </li>  
                 <li class="achievement-item">  
                     <h3>虔诚</h3>  
-                    <p>你真的，我哭死</p>  
+                    <p>你是来看呜呜伯的吗……(・∀・(・∀・(・∀・*)</p>  
                 </li>  
                 <li class="achievement-item">  
                     <h3>夜猫子</h3>  
@@ -393,7 +448,7 @@ const sidebarContent = `
                 </li>  
                 <li class="achievement-item">  
                     <h3>名人</h3>  
-                    <p>大佬给签个名~</p>  
+                    <p>呜呜伯请求大佬给签个名~</p>  
                 </li>  
                 <li class="achievement-item">  
                     <h3>听我说蟹蟹你</h3>  
@@ -410,7 +465,7 @@ const sidebarContent = `
                 </li>  
                 <li class="achievement-item">  
                     <h3>熊孩子</h3>  
-                    <p>开关都给你玩坏了！</p>  
+                    <p>开关都要给你玩坏了！(╯▔皿▔)╯</p>  
                 </li>  
                 <li class="achievement-item">  
                     <h3>思考者</h3>  
@@ -449,8 +504,8 @@ const sidebarContent = `
     <!-- 游戏胜利弹出层     -->
     <div id="gameWinBoard" class="gameWinBoard">
         <span id="winText">恭喜你！你赢了！<br> 
-                           继续玩或者重开，任君选择吧~ <br> 
-                           (￣▽￣)ノ</span>
+                            继续玩或者重开，任君选择吧~ <br> 
+                            (￣▽￣)ノ</span>
         <span id="winTextTip">点击任意位置继续……</span>
     </div>
 `;
@@ -465,8 +520,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showRanking();
     showIntroductionNav();
     volumeSync();
+    logoAchievement();
 });
-
 
 function initUI() {
     // 切换body元素的dark类
@@ -475,6 +530,11 @@ function initUI() {
         modeSwitch = body.querySelector(".toggle-switch"),
         modeText = body.querySelector(".mode-text"),
         toggle = body.querySelector('.toggle');
+    goldBtn = body.querySelector('#goldBtn');
+    blueBtn = body.querySelector('#blueBtn');
+    pinkBtn = body.querySelector('#pinkBtn');
+    macaroonBtn = body.querySelector('#macaroonBtn');
+    cyberBtn = body.querySelector('#cyberBtn');
     shellBtns = body.querySelectorAll('.shellBtn');
 
     // 切换侧边栏
@@ -497,12 +557,118 @@ function initUI() {
         });
     });
 
+    let recordBodyClass = "";
     // 切换模式
     modeSwitch.addEventListener("click", () => {
+        body.classList.remove("gold");
+        body.classList.remove("blue");
+        body.classList.remove("pink");
+        body.classList.remove("macaroon");
+        body.classList.remove("cyber");
         body.classList.toggle("dark");
+        if (body.classList.contains("dark")) {
+            modeText.innerText = "白日模式";
+        }
+        else {
+            modeText.innerText = "夜间模式";
+            body.classList.add(recordBodyClass);
+        }
 
-        if (body.classList.contains("dark")) modeText.innerText = "白日模式";
-        else modeText.innerText = "夜间模式";
+    });
+    goldBtn.addEventListener("click", () => {
+        recordBodyClass = 'gold';
+        if (body.classList.contains("dark")) {
+            body.classList.toggle("dark");
+            body.classList.add("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+        }
+        else {
+            body.classList.add("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+            body.classList.remove("dark");
+        }
+    });
+    blueBtn.addEventListener("click", () => {
+        recordBodyClass = 'blue';
+        if (body.classList.contains("dark")) {
+            body.classList.toggle("dark");
+            body.classList.add("blue");
+            body.classList.remove("gold");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+        }
+        else {
+            body.classList.add("blue");
+            body.classList.remove("gold");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+            body.classList.remove("dark");
+        }
+    });
+    pinkBtn.addEventListener("click", () => {
+        recordBodyClass = 'pink';
+        if (body.classList.contains("dark")) {
+            body.classList.toggle("dark");
+            body.classList.add("pink");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+        }
+        else {
+            body.classList.add("pink");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("macaroon");
+            body.classList.remove("cyber");
+            body.classList.remove("dark");
+        }
+    });
+    macaroonBtn.addEventListener("click", () => {
+        recordBodyClass = 'macaroon';
+        if (body.classList.contains("dark")) {
+            body.classList.toggle("dark");
+            body.classList.add("macaroon");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("cyber");
+        }
+        else {
+            body.classList.add("macaroon");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("cyber");
+            body.classList.remove("dark");
+        }
+    });
+    cyberBtn.addEventListener("click", () => {
+        recordBodyClass = 'cyber';
+        if (body.classList.contains("dark")) {
+            body.classList.toggle("dark");
+            body.classList.add("cyber");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+        }
+        else {
+            body.classList.add("cyber");
+            body.classList.remove("gold");
+            body.classList.remove("blue");
+            body.classList.remove("pink");
+            body.classList.remove("macaroon");
+            body.classList.remove("dark");
+        }
     });
 }
 
@@ -613,6 +779,7 @@ function closePopup() {
         popUp8.classList.remove('active');
     });
     document.getElementById('submitBtn').addEventListener('click', function (event) {
+        document.getElementById('submitBtn').classList.add('active');
         event.preventDefault();
         popUp6.classList.remove('active');
         document.getElementById('Pop-feedback').classList.add('active');
@@ -715,9 +882,54 @@ function showIntroductionNav() {
 
 // 音量显示
 function volumeSync() {
-    // 初始化音量
+    // 初始化音效（音量）
     const pop = document.querySelector('#pop');
-    pop.volume = 0.1;
+    pop.volume = 0.3;
+
+    // 初始化音乐（音量）
+    var audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.volume = 0.3
+    // 音乐播放器
+    let isPlaying = false;
+    document.getElementById('playBtn').addEventListener('click', function (event) {
+        if (isPlaying) {
+            audioPlayer.pause();
+            isPlaying = false;
+            document.getElementById('playBtn').classList.remove('playing');
+        } else {
+            audioPlayer.play();
+            isPlaying = true;
+            document.getElementById('playBtn').classList.add('playing');
+        }
+    });
+    // 音乐列表隐藏或显示
+    document.getElementById('toggle-playlist').addEventListener('click', function () {
+        const playlist = document.getElementById('playlist');
+        playlist.classList.toggle('visible');
+    });
+    // 更新音乐及专辑图册，同时重置旋转
+    document.getElementById('playlist').addEventListener('click', function (event) {
+        if (event.target.tagName === 'LI') {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const albumArt = document.getElementById('playBtn');
+
+            // 停止之前的旋转（如果已经在旋转）  
+            document.getElementById('playBtn').classList.remove('playing');
+            // 更新音频源  
+            audioPlayer.src = event.target.getAttribute('data-src');
+            // 加载并播放新音频（如果需要）  
+            audioPlayer.load();
+            audioPlayer.play();
+            isPlaying = true;
+            document.getElementById('playBtn').classList.add('playing');
+
+            // 更新专辑图片  
+            albumArt.src = event.target.getAttribute('data-img');
+
+            // 可选：关闭歌单  
+            this.classList.remove('visible');
+        }
+    });
 
     // BGM音量显示同步
     const inputSliderBgm = document.querySelector('#bgm');
@@ -727,6 +939,7 @@ function volumeSync() {
         sliderValueBgm.textContent = value1;
         sliderValueBgm.style.left = value1 / 2 + '%';
         sliderValueBgm.classList.add('show');
+        audioPlayer.volume = bgm.value / 100;
     }
     inputSliderBgm.onmouseleave = () => {
         sliderValueBgm.classList.remove('show');
@@ -753,5 +966,12 @@ function volumeSync() {
                 event.preventDefault();
             }
         });
+    });
+}
+
+// 点击logo（acI18)
+function logoAchievement() {
+    document.getElementById('logo').addEventListener('click', function () {
+        document.getElementById('logo').classList.add('active');
     });
 }

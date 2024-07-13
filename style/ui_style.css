@@ -53,6 +53,103 @@ body{
     --rank-sp: #797a7a;
     --introduction-bg-color: #3a3b3c;
 }
+/* 暮土金 */
+.gold{
+    --body-color: #faf8ef;
+    --shell-color: #fff;
+    --primary-color: #30251b;
+    --primary-color-light: #faefd6;
+    --toggle-color: #ddd;
+    --text-color: #734D29;
+    --popbackground: #fff;
+    --shadow: #676767;
+    --memberTextName-color: #141414;
+    --memberTextNum-color: #2d2d2d;
+    --grid-color: #eee5db;
+    --grid-bg-color: #84694f;
+    --startGameBtn-color: #f59563;
+    --grid-shadow: #000;
+    --rank-sp: #ebd49f;
+    --introduction-bg-color: #f7f7f7;
+}
+/* 海湾蓝 */
+.blue{
+    --body-color: #ddf7f5;     
+    --shell-color: #fff;
+    --primary-color: #0a86bf;
+    --primary-color-light: #d6ecfa;
+    --toggle-color: #ddd;
+    --text-color: #04565a;
+    --popbackground: #fff;  /* f0f6fc */
+    --shadow: #676767;
+    --memberTextName-color: #141414;
+    --memberTextNum-color: #2d2d2d;
+    --startGameBtn-color: #3568df;
+    --grid-color: #dbe9ee;
+    --grid-bg-color: #42597a;
+    --grid-shadow: #000;
+    --rank-sp: #9fddeb;
+    --introduction-bg-color: #f7f7f7;
+}
+/* 梦幻粉 */
+.pink{
+    --body-color: #f5ddf7;     
+    --shell-color: #fff;
+    --primary-color: #bf0aa7;
+    --primary-color-light: #f4d6fa;
+    --toggle-color: #ddd;
+    --text-color: #54045a;
+    --popbackground: #fff;  
+    --shadow: #676767;
+    --memberTextName-color: #141414;
+    --memberTextNum-color: #2d2d2d;
+    --startGameBtn-color: #df35c8;
+    --grid-color: #e9dbee;
+    --grid-bg-color: #7a4277;
+    --grid-shadow: #000;
+    --rank-sp: #dc9feb;
+    --introduction-bg-color: #f7f7f7;
+}
+/* 马卡龙 */
+.macaroon{
+    --body-color: #E6E6FA;
+    --shell-color: #fff;
+    --primary-color: #a674d7;
+    --primary-color-light: #ece6f4;
+    --toggle-color: #ddd;
+    --text-color: #1d454d;
+    --popbackground: #c8cef0;
+    --shadow: #778a94;
+    --memberTextName-color: #141414;
+    --memberTextNum-color: #2d2d2d;
+    --grid-color: #E4FEFF;
+    --grid-bg-color: #e9b8f1;
+    --startGameBtn-color: #5677e4;
+    --grid-shadow: #000;
+    --rank-sp: #bdb2f9; 
+    --introduction-bg-color: #edefff;
+}
+/* 赛博风 */
+.cyber{
+    background-image: url("../image/cyber.jpg");
+    background-size: cover;
+    --body-color: #000000; 
+    --shell-color: #2d2c2c; 
+    --primary-color: #00ffcc; 
+    --primary-color-light: #ffff00ee;
+    --toggle-color: #ffffff; 
+    --text-color: #ffffff;
+    --popbackground: #330066; 
+    --shadow: #000000; 
+    --memberTextName-color: #ffffff;
+    --memberTextNum-color: #ffffff;
+    --grid-color: #00ffff; 
+    --grid-bg-color: #330099; 
+    --startGameBtn-color: #ff6600; 
+    --grid-shadow: #000000; 
+    --rank-sp: #2e8200; 
+    --introduction-bg-color: #000033;
+}
 
 /* 侧边栏 */
 .shell{
@@ -570,6 +667,70 @@ header{
     transform: translate(-50%, -50%) scale(1); 
     opacity: 0.95;  
     transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+.skin-container{
+    position: absolute;
+    width: 180px;
+    height: 70px;
+    left: 5%;
+    border-radius: 10px;
+}
+#Gold{
+    top: 2%;
+    background-color: #faf8ef;
+}
+#Blue{
+    top: 21.5%;
+    background-color: #ddf7f5;
+}
+#Pink{
+    top: 41%;
+    background-color: #f5ddf7;
+}
+#Macaroon{
+    top: 61%;
+    background-color: #caffd9;
+}
+#Cyber{
+    top: 80.5%;
+    background-color: rgb(152, 152, 152);
+}
+.skinBtn{
+    position: absolute;
+    outline: none;
+    padding: 10px 22px;
+    top: 13%;
+    left: 40%;
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    text-shadow: 2px 2px 4px var(--shadow);
+}
+.skinBtn:active{
+    scale: 0.92;
+}
+#goldBtn{
+    background-color: #f59563;
+}
+#blueBtn{
+    background-color: #0a86bf;
+}
+#pinkBtn{
+    background-color: #cf35a6;
+}
+#macaroonBtn{
+    background-color: #c8abf0;
+}
+#cyberBtn{
+    background-color: #000;
 }
 
 
@@ -1262,7 +1423,7 @@ header{
     font-size: 20px;
     font-weight: 600;
 }
-.rankingList-container{  /* 有改动 */
+.rankingList-container{  
     position: fixed;  
     top: 71.5%;  
     left: 90%;
@@ -1278,7 +1439,7 @@ header{
     transition: transform 0.3s ease, opacity 0.3s ease;  
 }
 .rankingList-container.active {  
-    transform: translate(-50%, -50%) scale(1); /* 展开到正常大小 */  
+    transform: translate(-50%, -50%) scale(1); 
     opacity: 0.98;  
     transition: transform 0.3s ease, opacity 0.3s ease;  
 }
@@ -1287,7 +1448,7 @@ header{
     font-weight: bolder;
     color: var(--text-color);
     border-radius: 7px;
-    width: 200px;    /* 有改动 */
+    width: 200px;   
     background-color: var(--primary-color-light);
     height: 30px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -1370,4 +1531,88 @@ li{
     top: 60%;
     left: 24%;
     color: #dad5d5;
+}
+
+/* 音乐播放器 */
+.audio-container{
+    position: fixed;
+    width: 200px;
+    height: 90px;
+    background-color: var(--shell-color);
+    box-shadow: 0 2px 10px var(--grid-shadow);
+    border-radius: 10px;
+    bottom: 7.6%;
+    left: 3%;
+    overflow: hidden;
+}
+.audio-container img{
+    position: absolute;
+    border-radius: 50%;
+    bottom: 5%;
+    left: 5%;
+    width: 80px;
+    transition: transform 0.5s ease;
+    box-shadow: 0 3px 10px var(--grid-shadow);
+}
+#playBtn{
+    cursor: pointer;
+}
+.playing {  
+    animation: spin 5s linear infinite;
+}  
+@keyframes spin {  
+    from {  
+        transform: rotate(0deg);  
+    }  
+    to {  
+        transform: rotate(360deg);  
+    }  
+}  
+#toggle-playlist{
+    position: absolute;
+    bottom: 50%;
+    right: 40%;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    width: 1px;
+    height: 1px;
+}
+#iconPlayList{
+    font-size: 50px;
+    font-weight: 700;
+}
+.hidden {  
+    transform: translate(-100%, -50%) scale(0);  
+    position: absolute;
+    width: 200px;
+    height: auto;
+    bottom: 2%;
+    left: 65%;
+    background-color: var(--popbackground);  
+    border: 1px solid #ccc;  
+    border-radius: 10px;
+    transition: transform 0.4s ease, opacity 0.4s ease;  
+    opacity: 0;
+}  
+.hidden ul{
+    list-style: none;
+}
+.hidden ul li{
+    padding-left: 30px;
+    padding-top: 2px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: var(--primary-color-light);
+    color: var(--text-color);
+    text-shadow: 0 1px 1px 3px var(--grid-shadow);
+    width: 90%;
+}
+.visible {  
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;  
+    transition: transform 0.4s ease, opacity 0.4s ease;  
 }
