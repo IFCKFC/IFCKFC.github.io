@@ -136,8 +136,8 @@ body{
     --body-color: #000000; 
     --shell-color: #2d2c2c; 
     --primary-color: #00ffcc; 
-    --primary-color-light: #ffff00ee;
-    --toggle-color: #ffffff; 
+    --primary-color-light: #ffff00dd;
+    --toggle-color: #ddd; 
     --text-color: #ffffff;
     --popbackground: #330066; 
     --shadow: #000000; 
@@ -1615,4 +1615,34 @@ li{
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;  
     transition: transform 0.4s ease, opacity 0.4s ease;  
+}
+
+.pop-acItem{
+    position: fixed;
+    width: 300px;
+    height: 120px;
+    background-color: var(--primary-color);
+    color: var(--shell-color);
+    bottom: 2%;
+    right: 1%;
+    z-index: 300;
+    border-radius: 10px;
+    transition: transform 0.5s ease; 
+    transform: translateY(120%);
+}
+.dark .pop-acItem{
+    color: #ddd;
+}
+.pop-acItem.active {  
+    transform: translateY(0); /* 平滑移动到所需位置 */  
+    transition: transform 0.5s ease; 
+}
+.pop-acItem h3{
+    padding-top: 12px;
+    padding-left: 10px;
+    font-size: 27px;
+}
+.pop-acItem p{
+    padding-top: 10px;
+    padding-left: 10px;
 }

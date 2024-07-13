@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener('keydown', function (event) {
         // 检查是否同时按下了Alt键和F5键
-        if (event.altKey && event.key === 't') {
+        if (event.altKey && (event.key === 't' || event.key === 'T')) {
             event.preventDefault(); // 阻止默认行为
             refreshJson();          // 调用刷新JSON数据的函数
         }
@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 grid[i].innerText = board[i];
                 // 更新颜色
                 if (document.body.classList.contains("dark")) grid[i].style.backgroundColor = darkColor(board[i]);
-                else if (document.body.classList.contains("gold")) grid[i].style.backgroundColor = defaultColor(board[i]);
+                else if (document.body.classList.contains("gold")) grid[i].style.backgroundColor = goldColor(board[i]);
                 else if (document.body.classList.contains("blue")) grid[i].style.backgroundColor = blueColor(board[i]);
                 else if (document.body.classList.contains("pink")) grid[i].style.backgroundColor = pinkColor(board[i]);
                 else if (document.body.classList.contains("macaroon")) grid[i].style.backgroundColor = macaroonColor(board[i]);
@@ -650,7 +650,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 获取需要建立动画的移动格
         const fromGrid = grid[from];
         // 更换颜色
-        if (document.body.classList.contains("dark")) sfromGrid.style.backgroundColor = darkColor(val);
+        if (document.body.classList.contains("dark")) fromGrid.style.backgroundColor = darkColor(val);
         else if (document.body.classList.contains("gold")) fromGrid.style.backgroundColor = defaultColor(val);
         else if (document.body.classList.contains("blue")) fromGrid.style.backgroundColor = blueColor(val);
         else if (document.body.classList.contains("pink")) fromGrid.style.backgroundColor = pinkColor(val);
@@ -895,6 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 重置成就
     function resetAchievement() {
+        // 成就类特调
         document.getElementById('submitBtn').classList.remove('active'); // acI13特调
         document.getElementById('logo').classList.remove('active'); // acI18特调
         document.getElementById('like1').classList.remove('active'); // acI22特调
@@ -902,6 +903,36 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('like3').classList.remove('active');
         document.getElementById('like4').classList.remove('active');
         document.getElementById('like5').classList.remove('active');
+        // 文案特调
+        document.getElementById('ac1Content').textContent = "达成条件：******";
+        document.getElementById('ac2Content').textContent = "达成条件：******";
+        document.getElementById('ac3Content').textContent = "达成条件：******";
+        document.getElementById('ac4Content').textContent = "达成条件：******";
+        document.getElementById('ac5Content').textContent = "达成条件：******";
+        document.getElementById('ac6Content').textContent = "达成条件：******";
+        document.getElementById('ac7Content').textContent = "达成条件：******";
+        document.getElementById('ac8Content').textContent = "达成条件：******";
+        document.getElementById('ac9Content').textContent = "达成条件：******";
+        document.getElementById('ac10Content').textContent = "达成条件：******";
+        document.getElementById('ac11Content').textContent = "达成条件：******";
+        document.getElementById('ac12Content').textContent = "达成条件：******";
+        document.getElementById('ac13Content').textContent = "达成条件：******";
+        document.getElementById('ac14Content').textContent = "达成条件：******";
+        document.getElementById('ac15Content').textContent = "达成条件：******";
+        document.getElementById('ac16Content').textContent = "达成条件：******";
+        document.getElementById('ac17Content').textContent = "达成条件：******";
+        document.getElementById('ac18Content').textContent = "达成条件：******";
+        document.getElementById('ac19Content').textContent = "达成条件：******";
+        document.getElementById('ac20Content').textContent = "达成条件：******";
+        document.getElementById('ac21Content').textContent = "达成条件：******";
+        document.getElementById('ac22Content').textContent = "达成条件：******";
+        document.getElementById('ac23Content').textContent = "达成条件：******";
+        document.getElementById('ac24Content').textContent = "达成条件：******";
+        document.getElementById('ac25Content').textContent = "达成条件：******";
+        document.getElementById('ac26Content').textContent = "达成条件：******";
+        document.getElementById('ac27Content').textContent = "达成条件：******";
+        document.getElementById('ac28Content').textContent = "达成条件：******";
+        document.getElementById('ac29Content').textContent = "达成条件：******";
 
         let achievements = JSON.parse(localStorage.getItem('achievements') || '{}');
         for (let key in achievements) achievements[key] = false; // 将每个成就的完成状态设置为 false
@@ -938,43 +969,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let acI0, acI1, acI2, acI3, acI4, acI5, acI6, acI7, acI8, acI9, acI10,
         acI11, acI12, acI13, acI14, acI15, acI16, acI17, acI18, acI19, acI20,
-        acI21, acI22, acI23, acI24, acI25, acI26, acI27, acI28;
+        acI21, acI22, acI23, acI24, acI25, acI26, acI27, acI28, tRep = 558;
     // 首次检查成就
     startChecking();
     function startChecking() {
         const acI = JSON.parse(localStorage.getItem('achievements')) || [];
-        if (!acI[0]) acI0_check();
-        if (!acI[1]) acI1_check();
-        if (!acI[2]) acI2_check();
-        if (!acI[3]) acI3_check();
-        if (!acI[4]) acI4_check();
-        if (!acI[5]) acI5_check();
-        if (!acI[6]) acI6_check();
-        if (!acI[7]) acI7_check();
-        if (!acI[8]) acI8_check();
-        if (!acI[9]) acI9_check();
-        if (!acI[10]) acI10_check();
-        if (!acI[11]) acI11_check();
-        if (!acI[12]) acI12_check();
-        if (!acI[13]) acI13_check();
-        if (!acI[14]) acI14_check();
-        if (!acI[15]) acI15_check();
-        if (!acI[16]) acI16_check();
-        if (!acI[17]) acI17_check();
-        if (!acI[18]) acI18_check();
-        if (!acI[19]) acI19_check();
-        if (!acI[20]) acI20_check();
-        if (!acI[21]) acI21_check();
-        if (!acI[22]) acI22_check();
-        if (!acI[23]) acI23_check();
-        if (!acI[24]) acI24_check();
-        if (!acI[25]) acI25_check();
-        if (!acI[26]) acI26_check();
-        if (!acI[27]) acI27_check();
-        if (!acI[28]) acI28_check();
+        if (!acI[0]) acI0_check(); else document.getElementById('ac1Content').textContent = "达成条件：第一次点击“开始游戏”";
+        if (!acI[1]) acI1_check(); else document.getElementById('ac2Content').textContent = "达成条件：第一次成功合成方块（第一次获得分数）";
+        if (!acI[2]) acI2_check(); else document.getElementById('ac3Content').textContent = "达成条件：分数第一次超过100";
+        if (!acI[3]) acI3_check(); else document.getElementById('ac4Content').textContent = "达成条件：分数第一次超过558";
+        if (!acI[4]) acI4_check(); else document.getElementById('ac5Content').textContent = "达成条件：分数第一次超过1000";
+        if (!acI[5]) acI5_check(); else document.getElementById('ac6Content').textContent = "达成条件：分数第一次超过10000";
+        if (!acI[6]) acI6_check(); else document.getElementById('ac7Content').textContent = "达成条件：分数第一次超过20000";
+        if (!acI[7]) acI7_check(); else document.getElementById('ac8Content').textContent = "达成条件：分数第一次超过25582";
+        if (!acI[8]) acI8_check(); else document.getElementById('ac9Content').textContent = "达成条件：第一次失败";
+        if (!acI[9]) acI9_check(); else document.getElementById('ac10Content').textContent = "达成条件：移动超过100次";
+        if (!acI[10]) acI10_check(); else document.getElementById('ac11Content').textContent = "达成条件：移动超过558次";
+        if (!acI[11]) acI11_check(); else document.getElementById('ac12Content').textContent = "达成条件：移动超过1000次";
+        if (!acI[12]) acI12_check(); else document.getElementById('ac13Content').textContent = "达成条件：移动超过10000次";
+        if (!acI[13]) acI13_check(); else document.getElementById('ac14Content').textContent = "达成条件：移动超过100000次";
+        if (!acI[14]) acI14_check(); else document.getElementById('ac15Content').textContent = "达成条件：移动超过1000000次";
+        if (!acI[15]) acI15_check(); else document.getElementById('ac16Content').textContent = "达成条件：第一次合成2048";
+        if (!acI[16]) acI16_check(); else document.getElementById('ac17Content').textContent = "达成条件：第一次使用意见反馈系统";
+        if (!acI[17]) acI17_check(); else document.getElementById('ac18Content').textContent = "达成条件：把音效调到最大并进行一次合成";
+        if (!acI[18]) acI18_check(); else document.getElementById('ac19Content').textContent = "达成条件：首次点击LOGO";
+        if (!acI[19]) acI19_check(); else document.getElementById('ac20Content').textContent = "达成条件：在玩法介绍页面停留2分钟";
+        if (!acI[20]) acI20_check(); else document.getElementById('ac21Content').textContent = "达成条件：在系统时间21:00后到05:00前开启夜间模式";
+        if (!acI[21]) acI21_check(); else document.getElementById('ac22Content').textContent = "达成条件：排行榜第一名";
+        if (!acI[22]) acI22_check(); else document.getElementById('ac23Content').textContent = "达成条件：在制作团队界面给所有人点满赞";
+        if (!acI[23]) acI23_check(); else document.getElementById('ac24Content').textContent = "达成条件：反馈超过十条建议";
+        if (!acI[24]) acI24_check(); else document.getElementById('ac25Content').textContent = "达成条件：两秒钟之内操作(wasd)移动超过15次";
+        if (!acI[25]) acI25_check(); else document.getElementById('ac26Content').textContent = "达成条件：两秒钟之内切换模式10次";
+        if (!acI[26]) acI26_check(); else document.getElementById('ac27Content').textContent = "达成条件：点击开始游戏后五分钟内无任何操作";
+        if (!acI[27]) acI27_check(); else document.getElementById('ac28Content').textContent = "达成条件：在点击开始游戏后八分钟内通关游戏";
+        if (!acI[28]) acI28_check(); else document.getElementById('ac29Content').textContent = "达成条件：在系统时间23:00后到05:00期间，在夜间模式下，音量、音效都为10的情况下点击开始游戏";
     }
 
-    // |成就一检查|梦开始的地方|达成条件：第一次点击“开始游戏·”|（0）|
+
+    // |成就一检查|梦开始的地方|达成条件：第一次点击“开始游戏”|（0）|
     function acI0_check() {
         clearInterval(acI0);
         acI0 = setInterval(() => {
@@ -983,8 +1015,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(0);
                 clearInterval(acI0);
                 playAcIS();
+                document.getElementById('ac1').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac1').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac1Content').textContent = "达成条件：第一次点击“开始游戏”";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二检查|前面的可是地狱啊|达成条件：第一次成功合成方块（第一次得到分数）|（1）|
@@ -996,8 +1033,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(1);
                 clearInterval(acI1);
                 playAcIS();
+                document.getElementById('ac2').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac2').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac2Content').textContent = "达成条件：第一次成功合成方块（第一次获得分数）";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就三检查|初出茅庐|达成条件：分数第一次超过100|（2）|
@@ -1009,8 +1051,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(2);
                 clearInterval(acI2);
                 playAcIS();
+                document.getElementById('ac3').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac3').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac3Content').textContent = "达成条件：分数第一次超过100";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就四检查|呜呜伯|达成条件：分数第一次超过558|（3）|
@@ -1022,8 +1069,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(3);
                 clearInterval(acI3);
                 playAcIS();
+                document.getElementById('ac4').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac4').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac4Content').textContent = "达成条件：分数第一次超过558";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就五检查|小试牛刀|达成条件：分数第一次超过1000|（4）|
@@ -1035,8 +1087,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(4);
                 clearInterval(acI4);
                 playAcIS();
+                document.getElementById('ac5').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac5').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac5Content').textContent = "达成条件：分数第一次超过1000";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就六检查|炉火纯青|达成条件：分数第一次超过10000|（5）|
@@ -1048,8 +1105,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(5);
                 clearInterval(acI5);
                 playAcIS();
+                document.getElementById('ac6').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac6').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac6Content').textContent = "达成条件：分数第一次超过10000";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就七检查|独孤求败|达成条件：分数第一次超过20000|（6）|
@@ -1061,8 +1123,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(6);
                 clearInterval(acI6);
                 playAcIS();
+                document.getElementById('ac7').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac7').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac7Content').textContent = "达成条件：分数第一次超过20000";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就八检查|一代呜呜伯|达成条件：分数第一次超过25582|（7）|
@@ -1074,8 +1141,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(7);
                 clearInterval(acI7);
                 playAcIS();
+                document.getElementById('ac8').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac8').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac8Content').textContent = "达成条件：分数第一次超过25582";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就九检查|失败是成功他妈|达成条件：第一次失败|（8）|
@@ -1087,8 +1159,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(8);
                 clearInterval(acI8);
                 playAcIS();
+                document.getElementById('ac9').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac9').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac9Content').textContent = "达成条件：第一次失败";
             }
-        }, 1000);
+        }, tRep);
     }
 
     //  |成就十检查|键之力三段|达成条件：移动超过100次|（9）|
@@ -1100,8 +1177,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(9);
                 clearInterval(acI9);
                 playAcIS();
+                document.getElementById('ac10').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac10').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac10Content').textContent = "达成条件：移动超过100次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十一检查|呜呜伯累了.(´A`*)|达成条件：移动超过558次|（10）|
@@ -1113,8 +1195,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(10);
                 clearInterval(acI10);
                 playAcIS();
+                document.getElementById('ac11').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac11').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac11Content').textContent = "达成条件：移动超过558次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十二检查|大键师|达成条件：移动超过1000次|（11）|
@@ -1126,8 +1213,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(11);
                 clearInterval(acI11);
                 playAcIS();
+                document.getElementById('ac12').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac12').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac12Content').textContent = "达成条件：移动超过1000次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十三检查|键宗强者，恐怖如斯|达成条件：移动超过10000次|（12）|
@@ -1139,8 +1231,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(12);
                 clearInterval(acI12);
                 playAcIS();
+                document.getElementById('ac13').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac13').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac13Content').textContent = "达成条件：移动超过10000次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十四检查|键帝|达成条件：移动超过100000次|（13）|
@@ -1152,8 +1249,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(13);
                 clearInterval(acI13);
                 playAcIS();
+                document.getElementById('ac14').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac14').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac14Content').textContent = "达成条件：移动超过100000次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十五检查|键神|达成条件：移动超过1000000次|（14）|
@@ -1165,8 +1267,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(14);
                 clearInterval(acI14);
                 playAcIS();
+                document.getElementById('ac15').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac15').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac15Content').textContent = "达成条件：移动超过1000000次";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十六检查|呜呜，终于赢了|达成条件：第一次合成2048|（15）|
@@ -1177,9 +1284,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (win) {
                 completeAchievement(15);
                 clearInterval(acI15);
-                playAcIS();
+                playAcIS(); document.getElementById('ac16').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac16').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac16Content').textContent = "达成条件：第一次合成2048";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十七检查|爱要大声说出来|达成条件：第一次使用意见反馈系统|（16）|
@@ -1191,8 +1302,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(16);
                 clearInterval(acI16);
                 playAcIS();
+                document.getElementById('ac17').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac17').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac17Content').textContent = "达成条件：第一次使用意见反馈系统";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十八检查|耳膜破坏者|达成条件：把音效调到最大并进行一次合成|（17）|
@@ -1205,9 +1321,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(17);
                 clearInterval(acI17);
                 playAcIS();
+                document.getElementById('ac18').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac18').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac18Content').textContent = "达成条件：把音效调到最大并进行一次合成";
             }
             preStep = step;
-        }, 1000);
+        }, tRep);
     }
 
     // |成就十九检查|盲生，你发现了华点|达成条件：首次点击LOGO|（18）|
@@ -1219,8 +1340,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(18);
                 clearInterval(acI18);
                 playAcIS();
+                document.getElementById('ac19').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac19').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac19Content').textContent = "达成条件：首次点击LOGO";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十检查|虔诚|达成条件：你是来看呜呜伯的吗……(・∀・(・∀・(・∀・*)|（19）|
@@ -1235,10 +1361,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(19);
                     clearInterval(acI19);
                     playAcIS();
+                    document.getElementById('ac20').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac20').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac20Content').textContent = "达成条件：在玩法介绍页面停留2分钟";
                 }
             }
             else startTime = currentTime;
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十一检查|夜猫子|达成条件：在系统时间21:00后到05:00前开启夜间模式|（20）|
@@ -1252,9 +1383,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(20);
                     clearInterval(acI20);
                     playAcIS();
+                    document.getElementById('ac21').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac21').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac21Content').textContent = "达成条件：在系统时间21:00后到05:00前开启夜间模式";
                 }
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十二检查|名人|达成条件：排行榜第一名|（21）|
@@ -1266,8 +1402,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(21);
                 clearInterval(acI21);
                 playAcIS();
+                document.getElementById('ac22').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac22').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行 
+                document.getElementById('ac22Content').textContent = "达成条件：排行榜第一名";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十三检查|听我说蟹蟹你|达成条件：在制作团队界面给所有人点满赞|（22）|
@@ -1283,8 +1424,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(22);
                 clearInterval(acI22);
                 playAcIS();
+                document.getElementById('ac23').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac23').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac23Content').textContent = "达成条件：在制作团队界面给所有人点满赞";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十四检查|建议见意见议建|达成条件：反馈超过十条建议|（23）|
@@ -1299,9 +1445,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(23);
                     clearInterval(acI23);
                     playAcIS();
+                    document.getElementById('ac24').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac24').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac24Content').textContent = "达成条件：反馈超过十条建议";
                 }
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十五检查|闪电侠|达成条件：两秒钟之内操作(wasd)移动超过15次|（24）|
@@ -1316,10 +1467,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(24);
                     clearInterval(acI24);
                     playAcIS();
+                    document.getElementById('ac25').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac25').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac25Content').textContent = "达成条件：两秒钟之内操作(wasd)移动超过15次";
                 }
             }
             else { wasdCnt = 0, startTime = currentTime; }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十六检查|熊孩子|达成条件：两秒钟之内切换模式10次|（25）|
@@ -1334,10 +1490,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(25);
                     clearInterval(acI25);
                     playAcIS();
+                    document.getElementById('ac26').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac26').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac26Content').textContent = "达成条件：两秒钟之内切换模式10次";
                 }
             }
             else { modeCnt = 0, startTime = currentTime; }
-        }, 1000);
+        }, tRep);
     }
     document.body.querySelector('.toggle-switch').addEventListener('click', () => {
         modeCnt++;
@@ -1355,9 +1516,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(26);
                 clearInterval(acI26);
                 playAcIS();
+                document.getElementById('ac27').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac27').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac27Content').textContent = "达成条件：点击开始游戏后五分钟内无任何操作";
             }
             dir = null; // 每隔1秒种把方向清空1次
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十八检查|无他，为手熟尔|达成条件：在点击开始游戏后八分钟内通关游戏|（27）|
@@ -1372,8 +1538,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 completeAchievement(27);
                 clearInterval(acI27);
                 playAcIS();
+                document.getElementById('ac28').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('ac28').classList.remove('active'); // 移除active类来隐藏弹出层  
+                }, 3000); // 3000毫秒后执行  
+                document.getElementById('ac28Content').textContent = "达成条件：在点击开始游戏后八分钟内通关游戏";
             }
-        }, 1000);
+        }, tRep);
     }
 
     // |成就二十九检查|呜呜伯的沉浸式游戏日|达成条件：在系统时间23:00后到05:00期间，在夜间模式下，音量、音效都为10的情况下点击开始游戏|（28）|
@@ -1388,8 +1559,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     completeAchievement(28);
                     clearInterval(acI28);
                     playAcIS();
+                    document.getElementById('ac29').classList.add('active');
+                    setTimeout(function () {
+                        document.getElementById('ac29').classList.remove('active'); // 移除active类来隐藏弹出层  
+                    }, 3000); // 3000毫秒后执行  
+                    document.getElementById('ac29Content').textContent = "达成条件：在系统时间23:00后到05:00期间，在夜间模式下，音量、音效都为10的情况下点击开始游戏";
                 }
             }
-        }, 1000);
+        }, tRep);
     }
 });
