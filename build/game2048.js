@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 更新游戏版
     function updateBoard() {
         for (let i = 0; i < board.length; i++) {
-            if (board[i]) {
+            if (board[i] > 0) {
                 // 更新数字
                 grid[i].innerText = board[i];
                 // 更新颜色
