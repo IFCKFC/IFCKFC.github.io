@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 grid[i].innerText = board[i];
                 // 更新颜色
                 if (document.body.classList.contains("dark")) grid[i].style.backgroundColor = darkColor(board[i]);
-                else if (document.body.classList.contains("gold")) grid[i].style.backgroundColor = goldColor(board[i]);
+                else if (document.body.classList.contains("gold")) grid[i].style.backgroundColor = defaultColor(board[i]);
                 else if (document.body.classList.contains("blue")) grid[i].style.backgroundColor = blueColor(board[i]);
                 else if (document.body.classList.contains("pink")) grid[i].style.backgroundColor = pinkColor(board[i]);
                 else if (document.body.classList.contains("macaroon")) grid[i].style.backgroundColor = macaroonColor(board[i]);
